@@ -20,7 +20,7 @@ const EventDetailsPage = () => {
   //   userId,
   // });
 
-  const [data, setData] = useState<IProfileData>({
+  const [data] = useState<IProfileData>({
     firstName: "",
     lastName: "",
     username: "",
@@ -37,12 +37,12 @@ const EventDetailsPage = () => {
 
   // const [updateProfile] = useUpdateUserProfileMutation();
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setData({
-      ...data,
-      [e.target.name]: e.target.value,
-    });
-  };
+  // const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   setData({
+  //     ...data,
+  //     [e.target.name]: e.target.value,
+  //   });
+  // };
 
   // if (isLoading || isFetching)
   //   return <div className="text-3xl text-center my-5">Loading...</div>;
@@ -68,7 +68,7 @@ const EventDetailsPage = () => {
       >
         <InputFieldWithLabel
           name="displayName"
-          onChange={handleInputChange}
+          // onChange={handleInputChange}
           placeholder="Display Name"
           type="text"
           value={data?.username}
@@ -76,7 +76,7 @@ const EventDetailsPage = () => {
         />
         <InputFieldWithLabel
           name="firstName"
-          onChange={handleInputChange}
+          // onChange={handleInputChange}
           placeholder="Your First Name"
           type="text"
           value={data?.firstName}
@@ -84,7 +84,7 @@ const EventDetailsPage = () => {
         />
         <InputFieldWithLabel
           name="lastName"
-          onChange={handleInputChange}
+          // onChange={handleInputChange}
           placeholder="Your Last Name"
           type="text"
           value={data?.lastName}
@@ -92,7 +92,7 @@ const EventDetailsPage = () => {
         />
         <InputFieldWithLabel
           name="phone"
-          onChange={handleInputChange}
+          // onChange={handleInputChange}
           placeholder="Your Phone Number"
           type="text"
           value={data?.phone}
