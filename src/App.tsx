@@ -11,10 +11,12 @@ import {
   ResetPassword,
   Checkout,
 } from "./pages";
+import Sidebar from "./components/SideBar/Sidebar";
 
 const App = () => {
   return (
     <Router>
+      <Sidebar children={undefined} />
       <Routes>
         <Route path="/" element={<Events />} />
         <Route path="/login" element={<Login />} />

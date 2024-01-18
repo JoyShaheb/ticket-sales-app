@@ -30,7 +30,6 @@ const EventDetailsPage = () => {
     email: "",
     address: "",
   });
-  console.log(data);
 
   // useEffect(() => {
   //   setData(profileData as IProfileData);

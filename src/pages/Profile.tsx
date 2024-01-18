@@ -1,14 +1,14 @@
 import { logoutSuccess } from "@/store";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { IProfileData } from "@/types/interface";
 import { Button } from "@/components/ui/button";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 
 const Profile = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   // const [logout] = useLogoutMutation();
 
   const appSignout = async () => {
@@ -24,7 +24,7 @@ const Profile = () => {
   //   userId,
   // });
 
-  const [data, setData] = useState<IProfileData>({
+  const [data] = useState<IProfileData>({
     uid: userId,
     username: "",
     firstName: "",

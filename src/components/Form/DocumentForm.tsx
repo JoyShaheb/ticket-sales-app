@@ -1,8 +1,8 @@
-import React, { FC } from "react";
+import { FC } from "react";
 import InputFieldWithLabel from "./InputFieldWithLabel";
 
 interface IDocumentFormProps {
-  handleInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleInputChange: () => void;
   data: {
     name: string;
     description: string;
