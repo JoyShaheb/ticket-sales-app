@@ -9,20 +9,22 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { useNavigate } from "react-router-dom";
+import InputField from "@/components/Form/InputField";
+import {
+  HTMLFormChangeEventType,
+  InputChangeEventType,
+} from "@/types/interface";
 
 const Login = () => {
   const navigate = useNavigate();
   const [user, setUser] = useState({ email: "", password: "" });
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: HTMLFormChangeEventType) => {
     e.preventDefault();
   };
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (e: InputChangeEventType) =>
     setUser({ ...user, [e.target.name]: e.target.value });
-  };
 
   return (
     <div className="flex h-[100vh] justify-center items-center">
@@ -35,30 +37,25 @@ const Login = () => {
         </CardHeader>
         <form onSubmit={handleSubmit}>
           <CardContent className="grid gap-4">
-            <div className="grid gap-2">
-              <Label htmlFor="email">Email</Label>
-              <Input
-                id="email"
-                type="email"
-                onChange={handleInputChange}
-                name="email"
-                value={user.email}
-                required
-                placeholder="m@example.com"
-              />
-            </div>
+            <InputField
+              name="email"
+              onChange={handleInputChange}
+              placeholder="m@example.com"
+              required
+              type="email"
+              value={user.email}
+              label="Email"
+            />
             <div className="">
-              <div className="grid gap-2">
-                <Label htmlFor="password">Password</Label>
-                <Input
-                  id="password"
-                  name="password"
-                  value={user.password}
-                  onChange={handleInputChange}
-                  type="password"
-                  required
-                />
-              </div>
+              <InputField
+                label="Password"
+                name="password"
+                onChange={handleInputChange}
+                placeholder="m@example.com"
+                required
+                type="password"
+                value={user.password}
+              />
               <div className="font-semibold cursor-pointer hover:underline text-xs">
                 Reset password
               </div>
