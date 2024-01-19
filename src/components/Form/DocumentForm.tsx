@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import { FC } from "react";
 import InputFieldWithLabel from "./InputFieldWithLabel";
 
 interface IDocumentFormProps {

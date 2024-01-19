@@ -4,9 +4,11 @@ import { RootState } from "@/store";
 import { useState } from "react";
 import { IProfileData } from "@/types/interface";
 import { Button } from "@/components/ui/button";
+// import { useNavigate } from "react-router-dom";
 
 const Profile = () => {
   const dispatch = useDispatch();
+  // const navigate = useNavigate();
   // const [logout] = useLogoutMutation();
 
   const appSignout = async () => {
