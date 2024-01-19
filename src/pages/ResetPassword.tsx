@@ -12,6 +12,10 @@ const ResetPassword = () => {
   };
   const [data, setData] = useState(initialState);
 
+  // const oobCode = new URLSearchParams(window.location.search).get(
+  //   "oobCode",
+  // ) as string;
+
   // const [setNewPassWord] = useSetNewPassWordMutation();
 
   const handleResetPassword = async (e: FormEvent) => {

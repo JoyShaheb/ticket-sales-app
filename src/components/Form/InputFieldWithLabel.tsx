@@ -8,7 +8,8 @@ interface iInputFieldProps {
   type: React.HTMLInputTypeAttribute;
   placeholder: string;
   required?: boolean;
-  onChange?: () => void;
+  // eslint-disable-next-line no-unused-vars
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   value?: string | number;
 }
 

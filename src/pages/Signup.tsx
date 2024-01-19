@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { FaGithub, FaGoogle } from "react-icons/fa";
 import { Button } from "@/components/ui/button";
 import {
@@ -9,18 +9,21 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { useNavigate } from "react-router-dom";
+import {
+  HTMLFormChangeEventType,
+  InputChangeEventType,
+} from "@/types/interface";
+import InputField from "@/components/Form/InputField";
 
 const Signup = () => {
   const navigate = useNavigate();
   const [user, setUser] = useState({ email: "", password: "" });
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: HTMLFormChangeEventType) => {
     e.preventDefault();
   };
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (e: InputChangeEventType) => {
     setUser({ ...user, [e.target.name]: e.target.value });
   };
   return (
@@ -34,30 +37,24 @@ const Signup = () => {
         </CardHeader>
         <form onSubmit={handleSubmit}>
           <CardContent className="grid gap-4">
-            <div className="grid gap-2">
-              <Label htmlFor="email">Email</Label>
-              <Input
-                id="email"
-                type="email"
-                onChange={handleInputChange}
-                // type="text"
-                name="email"
-                value={user.email}
-                required
-                placeholder="m@example.com"
-              />
-            </div>
-            <div className="grid gap-2">
-              <Label htmlFor="password">Password</Label>
-              <Input
-                id="password"
-                name="password"
-                value={user.password}
-                onChange={handleInputChange}
-                type="password"
-                required
-              />
-            </div>
+            <InputField
+              name="email"
+              onChange={handleInputChange}
+              placeholder="m@example.com"
+              required
+              type="email"
+              value={user.email}
+              label="Email"
+            />
+            <InputField
+              label="Password"
+              name="password"
+              onChange={handleInputChange}
+              placeholder="m@example.com"
+              required
+              type="password"
+              value={user.password}
+            />
             <div className="relative">
               <div className="absolute inset-0 flex items-center">
                 <span className="w-full border-t" />

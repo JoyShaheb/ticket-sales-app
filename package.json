@@ -8,8 +8,10 @@
     "build": "tsc && vite build",
     "lint": "eslint --fix \"src/**/*.tsx\"",
     "preview": "vite preview",
-    "format": "prettier --write .",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "format": "prettier --write \"src/**/*.{js,jsx,json,md,ts,tsx}\"",
+    "lint-staged": "lint-staged",
+    "lint-format": "npm run lint && npm run format"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
@@ -44,6 +46,7 @@
     "@types/node": "^20.11.5",
     "@types/react": "^18.2.43",
     "@types/react-dom": "^18.2.17",
+    "@types/react-icons": "^3.0.0",
     "@typescript-eslint/eslint-plugin": "^6.14.0",
     "@typescript-eslint/parser": "^6.14.0",
     "@vitejs/plugin-react-swc": "^3.5.0",
