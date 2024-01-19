@@ -10,7 +10,8 @@
     "preview": "vite preview",
     "prepare": "husky install",
     "format": "prettier --write \"src/**/*.{js,jsx,json,md,ts,tsx}\"",
-    "lint-staged": "lint-staged"
+    "lint-staged": "lint-staged",
+    "lint-format": "npm run lint && npm run format"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
@@ -20,11 +21,14 @@
   },
   "pre-commit": "lint-staged",
   "dependencies": {
+    "@reduxjs/toolkit": "^2.0.1",
     "lint-staged": "^15.2.0",
     "pre-commit": "^1.2.2",
     "prettier": "^3.2.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-redux": "^9.1.0",
+    "redux-persist": "^6.0.0",
     "save-dev": "^0.0.1-security"
   },
   "devDependencies": {
