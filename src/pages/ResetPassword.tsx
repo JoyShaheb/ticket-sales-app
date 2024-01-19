@@ -1,20 +1,20 @@
 import { useState, FormEvent } from "react";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import { IUserAuthData } from "@/types/interface";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
 const ResetPassword = () => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const initialState: Pick<IUserAuthData, "password"> = {
     password: "",
   };
   const [data, setData] = useState(initialState);
 
-  const oobCode = new URLSearchParams(window.location.search).get(
-    "oobCode",
-  ) as string;
+  // const oobCode = new URLSearchParams(window.location.search).get(
+  //   "oobCode",
+  // ) as string;
 
   // const [setNewPassWord] = useSetNewPassWordMutation();
 
