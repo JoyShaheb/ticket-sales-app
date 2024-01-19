@@ -6,12 +6,26 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "lint": "eslint --fix \"src/**/*.tsx\"",
+    "preview": "vite preview",
+    "prepare": "husky install",
+    "format": "prettier --write \"src/**/*.{js,jsx,json,md,ts,tsx}\"",
+    "lint-staged": "lint-staged"
   },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "eslint",
+      "prettier --write"
+    ]
+  },
+  "pre-commit": "lint-staged",
   "dependencies": {
+    "lint-staged": "^15.2.0",
+    "pre-commit": "^1.2.2",
+    "prettier": "^3.2.4",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "save-dev": "^0.0.1-security"
   },
   "devDependencies": {
     "@types/react": "^18.2.43",
@@ -22,6 +36,7 @@
     "eslint": "^8.55.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.5",
+    "husky": "^8.0.3",
     "typescript": "^5.2.2",
     "vite": "^5.0.8"
   }
