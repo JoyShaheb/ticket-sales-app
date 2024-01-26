@@ -2,12 +2,12 @@ import React, { useState } from "react";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { IUserAuthData } from "@/types/interface";
+import { IUserSignInData } from "@/types/interface";
 import { useNavigate } from "react-router-dom";
 
 const ForgotPassword = () => {
   const navigate = useNavigate();
-  const initialState: Pick<IUserAuthData, "email"> = {
+  const initialState: Pick<IUserSignInData, "email"> = {
     email: "",
   };
 

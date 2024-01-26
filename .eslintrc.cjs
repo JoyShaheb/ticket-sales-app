@@ -23,5 +23,6 @@ module.exports = {
       },
     ],
     "no-console": ["warn", { allow: ["warn", "error"] }],
+    "react-hooks/exhaustive-deps": "off", // Allow empty dependency array in useEffect
   },
 };

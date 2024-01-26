@@ -9,23 +9,62 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { useNavigate } from "react-router-dom";
-import InputField from "@/components/Form/InputField";
-import {
-  HTMLFormChangeEventType,
-  InputChangeEventType,
-} from "@/types/interface";
+import { toast } from "sonner";
+import { IUserSignInData } from "@/types/interface";
+import { useEmailLoginMutation, useGoogleSignupMutation } from "@/store";
+import { Loader2 } from "lucide-react";
+import { GoogleAuthType } from "../types/types";
 
 const Login = () => {
-  const navigate = useNavigate();
-  const [user, setUser] = useState({ email: "", password: "" });
-  const handleSubmit = async (e: HTMLFormChangeEventType) => {
-    e.preventDefault();
+  const initialState: IUserSignInData = {
+    email: "khondokoralam@gmail.com",
+    password: "1234567",
   };
 
-  const handleInputChange = (e: InputChangeEventType) =>
-    setUser({ ...user, [e.target.name]: e.target.value });
+  const navigate = useNavigate();
+  const [data, setData] = useState(initialState);
 
+  const [emailLogin] = useEmailLoginMutation();
+  const [googleSignup] = useGoogleSignupMutation();
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) =>
+    setData({ ...data, [e.target.name]: e.target.value });
+
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    toast.loading("Logging in, Please wait...", {
+      icon: (
+        <Loader2 className="h-[20px] w-[20px] animate-spin text-[#26AC9B]" />
+      ),
+    });
+    emailLogin(data)
+      .unwrap()
+      .then(() => {
+        toast.success("Success!", {
+          description: "Logged in Successfully",
+        });
+      })
+      .then(() => {
+        setData(initialState);
+        // Navigate to /user after successful login
+        navigate("/user");
+      })
+      .catch((err: string) => {
+        toast.error("Unable to login...", {
+          description: err,
+        });
+      });
+  };
+
+  const GoogleAuth: GoogleAuthType = async () =>
+    toast.promise(googleSignup(null).unwrap(), {
+      loading: "Logging in...",
+      success: "Successfully Logged in!",
+      error: "Unable to login!",
+    });
   return (
     <div className="flex h-[100vh] justify-center items-center">
       <Card className="max-w-[320px]">
@@ -35,27 +74,32 @@ const Login = () => {
             Enter your email below to login to your account
           </CardDescription>
         </CardHeader>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={onSubmit}>
           <CardContent className="grid gap-4">
-            <InputField
-              name="email"
-              onChange={handleInputChange}
-              placeholder="m@example.com"
-              required
-              type="email"
-              value={user.email}
-              label="Email"
-            />
-            <div className="">
-              <InputField
-                label="Password"
-                name="password"
-                onChange={handleInputChange}
-                placeholder="m@example.com"
+            <div className="grid gap-2">
+              <Label htmlFor="email">Email</Label>
+              <Input
+                id="email"
+                type="email"
+                onChange={handleChange}
+                name="email"
+                value={data.email}
                 required
-                type="password"
-                value={user.password}
+                placeholder="m@example.com"
               />
+            </div>
+            <div className="">
+              <div className="grid gap-2">
+                <Label htmlFor="password">Password</Label>
+                <Input
+                  id="password"
+                  name="password"
+                  value={data.password}
+                  onChange={handleChange}
+                  type="password"
+                  required
+                />
+              </div>
               <div className="font-semibold cursor-pointer hover:underline text-xs">
                 Reset password
               </div>
@@ -75,7 +119,7 @@ const Login = () => {
                 <FaGithub className="mr-2 h-4 w-4" />
                 Github
               </Button>
-              <Button variant="outline">
+              <Button onClick={GoogleAuth} variant="outline">
                 <FaGoogle className="mr-2 h-4 w-4" />
                 Google
               </Button>
@@ -83,11 +127,7 @@ const Login = () => {
           </CardContent>
           <CardFooter>
             <div className="flex flex-col items-center w-full">
-              <Button
-                type="submit"
-                className="w-full"
-                onClick={() => navigate("/User")}
-              >
+              <Button type="submit" className="w-full">
                 Login User
               </Button>
               <Button

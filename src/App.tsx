@@ -12,8 +12,34 @@ import {
   Checkout,
 } from "./pages";
 import Sidebar from "./components/SideBar/Sidebar";
+import { useEffect } from "react";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "./config/firebase-config";
+import { loginSuccess } from "./store";
+import { useDispatch } from "react-redux";
+import { logoutSuccess } from "./store/Slices/userSlice.ts";
 
 const App = () => {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        dispatch(
+          loginSuccess({
+            uid: user.uid,
+            email: user.email as string,
+            displayName: user.displayName as string,
+            photoURL: user.photoURL as string,
+            emailVerified: user.emailVerified,
+            phoneNumber: user.phoneNumber as string,
+          })
+        );
+      } else {
+        dispatch(logoutSuccess());
+      }
+    });
+  }, []);
+
   return (
     <Router>
       <Sidebar>

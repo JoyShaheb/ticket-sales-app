@@ -2,8 +2,7 @@ import { FC } from "react";
 import InputFieldWithLabel from "./InputFieldWithLabel";
 
 interface IDocumentFormProps {
-  // eslint-disable-next-line no-unused-vars
-  handleInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleInputChange: () => void;
   data: {
     name: string;
     description: string;

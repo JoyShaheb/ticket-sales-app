@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { FaGithub, FaGoogle } from "react-icons/fa";
 import { Button } from "@/components/ui/button";
 import {
@@ -9,22 +9,48 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { useNavigate } from "react-router-dom";
-import {
-  HTMLFormChangeEventType,
-  InputChangeEventType,
-} from "@/types/interface";
-import InputField from "@/components/Form/InputField";
+import { IUserSignInData } from "@/types/interface";
+import { useEmailSignupMutation, useGoogleSignupMutation } from "@/store";
+import { toast } from "sonner";
 
 const Signup = () => {
-  const navigate = useNavigate();
-  const [user, setUser] = useState({ email: "", password: "" });
-  const handleSubmit = async (e: HTMLFormChangeEventType) => {
-    e.preventDefault();
+  const initialState: IUserSignInData = {
+    email: "",
+    password: "",
   };
 
-  const handleInputChange = (e: InputChangeEventType) => {
-    setUser({ ...user, [e.target.name]: e.target.value });
+  const navigate = useNavigate();
+  const [data, setData] = useState(initialState);
+
+  const [emailSignup] = useEmailSignupMutation();
+  const [googleSignup] = useGoogleSignupMutation();
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setData({ ...data, [e.target.name]: e.target.value });
+  };
+
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    toast.promise(emailSignup(data).unwrap(), {
+      loading: "Creating user...",
+      success: () => {
+        // Successfully created user, now navigate to /login
+        navigate("/login");
+        return "Successfully created user!";
+      },
+      error: (err) => err,
+    });
+  };
+
+  const GoogleAuth = async () => {
+    toast.promise(googleSignup(null).unwrap(), {
+      loading: "Creating user...",
+      success: "Successfully created user!",
+      error: (err) => err,
+    });
   };
   return (
     <div className="flex h-[100vh] justify-center items-center">
@@ -35,26 +61,32 @@ const Signup = () => {
             Enter your email below to create your account
           </CardDescription>
         </CardHeader>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={onSubmit}>
           <CardContent className="grid gap-4">
-            <InputField
-              name="email"
-              onChange={handleInputChange}
-              placeholder="m@example.com"
-              required
-              type="email"
-              value={user.email}
-              label="Email"
-            />
-            <InputField
-              label="Password"
-              name="password"
-              onChange={handleInputChange}
-              placeholder="m@example.com"
-              required
-              type="password"
-              value={user.password}
-            />
+            <div className="grid gap-2">
+              <Label htmlFor="email">Email</Label>
+              <Input
+                id="email"
+                type="email"
+                onChange={handleChange}
+                // type="text"
+                name="email"
+                value={data.email}
+                required
+                placeholder="m@example.com"
+              />
+            </div>
+            <div className="grid gap-2">
+              <Label htmlFor="password">Password</Label>
+              <Input
+                id="password"
+                name="password"
+                value={data.password}
+                onChange={handleChange}
+                type="password"
+                required
+              />
+            </div>
             <div className="relative">
               <div className="absolute inset-0 flex items-center">
                 <span className="w-full border-t" />
@@ -70,7 +102,7 @@ const Signup = () => {
                 <FaGithub className="mr-2 h-4 w-4" />
                 Github
               </Button>
-              <Button variant="outline">
+              <Button onClick={GoogleAuth} variant="outline">
                 <FaGoogle className="mr-2 h-4 w-4" />
                 Google
               </Button>
@@ -78,11 +110,7 @@ const Signup = () => {
           </CardContent>
           <CardFooter>
             <div className="flex flex-col items-center w-full">
-              <Button
-                type="submit"
-                className="w-full"
-                onClick={() => navigate("/login")}
-              >
+              <Button type="submit" className="w-full">
                 Create account
               </Button>
               <Button

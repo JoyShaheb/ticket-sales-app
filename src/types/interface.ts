@@ -9,21 +9,13 @@ export interface IProfileData {
   photo: string;
 }
 
-export interface IUserAuthData {
+export interface IUserSignInData {
   email: string;
   password: string;
 }
 
-export type InputChangeEventType = React.ChangeEvent<HTMLInputElement>;
-export type HTMLFormChangeEventType = React.FormEvent<HTMLFormElement>;
-
-export interface IInputFieldProps {
-  label: string;
+export interface IUpdateUser {
   name: string;
-  type: string;
-  value: string | number;
-  // eslint-disable-next-line no-unused-vars
-  onChange: (e: InputChangeEventType) => void;
-  placeholder: string;
-  required?: boolean;
+  photoURL: string;
+  phoneNumber: string;
 }
