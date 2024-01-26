@@ -9,7 +9,8 @@
     "lint": "eslint --fix \"src/**/*.tsx\"",
     "preview": "vite preview",
     "format": "prettier --write .",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "lint-and-format": "npm run format && npm run lint"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
