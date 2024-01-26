@@ -4,6 +4,8 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { IUserSignInData } from "@/types/interface";
 import { useNavigate } from "react-router-dom";
+import { useSendResetPassWordEmailMutation } from "@/store";
+import { toast } from "sonner";
 
 const ForgotPassword = () => {
   const navigate = useNavigate();
@@ -13,10 +15,22 @@ const ForgotPassword = () => {
 
   const [data, setData] = useState(initialState);
 
-  // const [sendResetPassWordEmail] = useSendResetPassWordEmailMutation();
+  const [sendResetPassWordEmail] = useSendResetPassWordEmailMutation();
 
   const handlePasswordReset = async (e: React.FormEvent) => {
     e.preventDefault();
+    await toast.promise(
+      sendResetPassWordEmail({
+        email: data.email,
+      })
+        .unwrap()
+        .then(() => setData(initialState)),
+      {
+        loading: "Sending email...",
+        success: "Email Sent! Please Check your Mail",
+        error: "Failed to send email!",
+      }
+    );
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) =>
@@ -26,7 +40,7 @@ const ForgotPassword = () => {
     <div className="bg-primary-foreground min-h-screen flex items-center justify-center">
       <div className="w-[300px] md:w-[400px] rounded-lg shadow-lg bg-primary-foreground p-6 space-y-6 border border-gray-200 dark:border-gray-700">
         <div className="space-y-2 text-center">
-          <h1 className="text-3xl font-bold">Password Reset</h1>
+          <h1 className="text-3xl font-bold">Password Reset Email</h1>
           <p className="text-zinc-500 dark:text-zinc-400">
             Our servers will send password reset link to your email within 2
             minutes

@@ -1,21 +1,42 @@
 import { useState, FormEvent } from "react";
-// import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { IUserSignInData } from "@/types/interface";
-import { Label } from "@/components/ui/label";
+import { useSetNewPassWordMutation } from "@/store";
+
+import { Label } from "@radix-ui/react-label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
 
 const ResetPassword = () => {
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   const initialState: Pick<IUserSignInData, "password"> = {
     password: "",
   };
   const [data, setData] = useState(initialState);
 
-  // const [setNewPassWord] = useSetNewPassWordMutation();
+  const oobCode = new URLSearchParams(window.location.search).get(
+    "oobCode"
+  ) as string;
+
+  const [setNewPassWord] = useSetNewPassWordMutation();
 
   const handleResetPassword = async (e: FormEvent) => {
     e.preventDefault();
+    await toast.promise(
+      setNewPassWord({
+        oobCode,
+        password: data.password,
+      })
+        .unwrap()
+        .then(() => setData(initialState))
+        .then(() => navigate("/login")),
+      {
+        loading: "Resetting password...",
+        success: "Password Reset successful",
+        error: "Failed to reset password!",
+      }
+    );
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) =>
