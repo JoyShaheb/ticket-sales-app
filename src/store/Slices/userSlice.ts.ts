@@ -8,6 +8,7 @@ export interface UserState {
   emailVerified: boolean;
   photoURL: string;
   phoneNumber: string;
+  userRole: "user" | "admin" | "";
 }
 
 export const initialState: UserState = {
@@ -17,6 +18,7 @@ export const initialState: UserState = {
   emailVerified: false,
   photoURL: "",
   phoneNumber: "",
+  userRole: "",
 };
 
 export const userDataSlice = createSlice({

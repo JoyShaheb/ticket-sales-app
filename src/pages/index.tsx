@@ -8,6 +8,7 @@ import Profile from "./Profile";
 import Events from "./Events";
 import EventDetailsPage from "./EventDetailsPage";
 import Checkout from "./Checkout";
+import Bookmarks from "./Bookmarks";
 
 export {
   Signup,
@@ -15,6 +16,7 @@ export {
   ErrorPage,
   EventDetailsPage,
   Events,
+  Bookmarks,
   ForgotPassword,
   Cart,
   Profile,
