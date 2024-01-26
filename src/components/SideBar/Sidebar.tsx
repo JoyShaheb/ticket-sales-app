@@ -1,36 +1,34 @@
-// import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
-// import { toast } from "react-toastify";
 // import {
-//   RootState,
-//   // clearToken,
 //   logoutSuccess,
 //   themeSwitch,
-//   useLogoutMutation,
 // } from "../../store";
 import { useEffect } from "react";
 import { ThemeTypesEnum } from "@/types/enum";
 import SideBarMenu from "./SideBarMenu";
 import MobileSideBar from "./MobileSideBar";
-import { RootState, themeSwitch } from "@/store";
+import { RootState, themeSwitch, useLogoutMutation } from "@/store";
+import { toast } from "sonner";
 
 const Sidebar = ({ children }: { children: React.ReactNode }) => {
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const dispatch = useDispatch();
-  // const [logout] = useLogoutMutation();
+  const [logout] = useLogoutMutation();
 
   const appSignout = async () => {
-    // dispatch(clearToken());
-    // dispatch(logoutSuccess());
-    // await toast
-    //   .promise(logout(null).unwrap(), {
-    //     pending: "Logging out...",
-    //     success: "Logout successful",
-    //     error: "Logout failed",
-    //   })
-    //   .then(() => navigate("/login"));
+    toast.promise(
+      logout(null)
+        .unwrap()
+        .then(() => navigate("/login")),
+      {
+        loading: "Logging out...",
+        success: "Logout successful",
+        error: "Logout failed",
+      }
+    );
   };
 
   const theme = useSelector((state: RootState) => state.system.mode);
