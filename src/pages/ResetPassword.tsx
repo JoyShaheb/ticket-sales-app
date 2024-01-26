@@ -1,13 +1,13 @@
 import { useState, FormEvent } from "react";
 // import { useNavigate } from "react-router-dom";
-import { IUserAuthData } from "@/types/interface";
+import { IUserSignInData } from "@/types/interface";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
 const ResetPassword = () => {
   // const navigate = useNavigate();
-  const initialState: Pick<IUserAuthData, "password"> = {
+  const initialState: Pick<IUserSignInData, "password"> = {
     password: "",
   };
   const [data, setData] = useState(initialState);
