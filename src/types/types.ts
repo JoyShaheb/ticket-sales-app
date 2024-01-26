@@ -9,3 +9,5 @@ export interface iErrorState {
   error: FetchBaseQueryError | SerializedError | undefined;
   isFetching?: boolean;
 }
+
+export type GoogleAuthType = () => Promise<string | number>;
