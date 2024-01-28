@@ -100,9 +100,16 @@ const Login = () => {
                   required
                 />
               </div>
-              <div className="font-semibold cursor-pointer hover:underline text-xs">
-                Reset password
-              </div>
+              <Button
+                onClick={() => navigate("/forgot-password")}
+                variant="link"
+                size="sm"
+              >
+                Forgot Password
+              </Button>
+              <Button type="submit" className="w-full mt-2">
+                Login User
+              </Button>
             </div>
             <div className="relative">
               <div className="absolute inset-0 flex items-center">
@@ -127,9 +134,6 @@ const Login = () => {
           </CardContent>
           <CardFooter>
             <div className="flex flex-col items-center w-full">
-              <Button type="submit" className="w-full">
-                Login User
-              </Button>
               <Button
                 variant="link"
                 className="flex gap-1 w-full"

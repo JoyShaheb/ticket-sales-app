@@ -11,6 +11,7 @@ import {
   ResetPassword,
   Checkout,
   Bookmarks,
+  VerifyEmail,
 } from "./pages";
 import { AdminDashboard, EventCreation } from "./pages/AdminPages/";
 import Sidebar from "./components/SideBar/Sidebar";
@@ -58,6 +59,7 @@ const App = () => {
           {/* Reset and forgot belongs to general pages because both auth and non-auth users can use these services */}
           <Route path="/reset-password" element={<ResetPassword />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/verify-email" element={<VerifyEmail />} />
 
           {/* ! User Pages */}
           <Route element={<UserRoutes />}>

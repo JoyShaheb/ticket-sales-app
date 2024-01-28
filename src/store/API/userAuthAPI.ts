@@ -8,6 +8,7 @@ import {
   signOut,
   sendPasswordResetEmail,
   confirmPasswordReset,
+  sendEmailVerification,
 } from "firebase/auth";
 
 export interface IUserSignInData {
@@ -74,6 +75,21 @@ export const UserAuthAPI = createApi({
         }
       },
       invalidatesTags: ["User"],
+    }),
+    sendEmailVerification: builder.mutation<string, null>({
+      queryFn: async () => {
+        try {
+          // @ts-ignore
+          await sendEmailVerification(auth.currentUser);
+          return {
+            data: "Email verification sent to your email",
+          };
+        } catch (err) {
+          return {
+            error: (err as Error)?.message,
+          };
+        }
+      },
     }),
     googleSignup: builder.mutation<UserCredential, null>({
       queryFn: async () => {
@@ -145,4 +161,5 @@ export const {
   useLogoutMutation,
   useSendResetPassWordEmailMutation,
   useSetNewPassWordMutation,
+  useSendEmailVerificationMutation,
 } = UserAuthAPI;
