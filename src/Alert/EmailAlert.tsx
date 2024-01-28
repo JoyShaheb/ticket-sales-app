@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 
 const EmailAlert = ({ action }: { action: () => void }) => {
   return (
-    <div className="container max-w-7xl">
+    <div className="container mt-10 max-w-7xl">
       <Alert variant="destructive">
         <div className="flex justify-between">
           <div className="flex gap-3 items-center">
@@ -12,7 +12,11 @@ const EmailAlert = ({ action }: { action: () => void }) => {
             <div className="">
               <AlertTitle>Email Verification Required</AlertTitle>
               <AlertDescription>
-                Please verify your email address to continue using the app.
+                Please use the button to verify your email address to continue
+                using the app.
+                <br />
+                <br />
+                Then, comeback and refresh the page
               </AlertDescription>
             </div>
           </div>
