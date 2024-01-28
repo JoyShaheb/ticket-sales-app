@@ -61,12 +61,12 @@ const Login = () => {
         <form onSubmit={handleRseetPassword}>
           <CardContent className="grid gap-4">
             <div className="grid gap-2">
-              <Label htmlFor="email">Email</Label>
+              <Label htmlFor="password">Enter your new password</Label>
               <Input
-                id="email"
-                type="email"
+                id="password"
+                type="password"
                 onChange={handleChange}
-                name="email"
+                name="password"
                 value={data.password}
                 required
                 placeholder="m@example.com"
