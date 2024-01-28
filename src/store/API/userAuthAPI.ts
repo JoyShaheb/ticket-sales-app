@@ -116,7 +116,7 @@ export const UserAuthAPI = createApi({
       queryFn: async ({ email }) => {
         try {
           await sendPasswordResetEmail(auth, email, {
-            url: "http://localhost:5173/reset-password",
+            url: "http://localhost:5173/login",
           });
           return {
             data: "Password reset link sent to your email",
