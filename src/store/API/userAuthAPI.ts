@@ -161,5 +161,5 @@ export const {
   useLogoutMutation,
   useSendResetPassWordEmailMutation,
   useSetNewPassWordMutation,
-  useSendEmailVerificationMutation
+  useSendEmailVerificationMutation,
 } = UserAuthAPI;

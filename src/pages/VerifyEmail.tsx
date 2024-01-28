@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import EmailAlert from "@/Alert/EmailAlert";
 import { useSendEmailVerificationMutation } from "@/store/API/userAuthAPI";
 import { toast } from "sonner";
