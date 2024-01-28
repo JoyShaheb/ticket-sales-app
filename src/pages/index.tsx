@@ -9,6 +9,7 @@ import Events from "./Events";
 import EventDetailsPage from "./EventDetailsPage";
 import Checkout from "./Checkout";
 import Bookmarks from "./Bookmarks";
+import VerifyEmail from "./VerifyEmail";
 
 export {
   Signup,
@@ -22,4 +23,5 @@ export {
   Profile,
   ResetPassword,
   Checkout,
+  VerifyEmail,
 };
