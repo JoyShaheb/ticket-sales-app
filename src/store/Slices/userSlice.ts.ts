@@ -31,8 +31,15 @@ export const userDataSlice = createSlice({
         ...action.payload,
       };
     },
+    changeEmailVeificationStatus: (state, action: PayloadAction<boolean>) => {
+      return {
+        ...state,
+        emailVerified: action.payload,
+      };
+    },
     logoutSuccess: () => initialState,
   },
 });
 
-export const { loginSuccess, logoutSuccess } = userDataSlice.actions;
+export const { loginSuccess, logoutSuccess, changeEmailVeificationStatus } =
+  userDataSlice.actions;

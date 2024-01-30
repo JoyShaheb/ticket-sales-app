@@ -5,6 +5,7 @@ import {
   userDataSlice,
   loginSuccess,
   logoutSuccess,
+  changeEmailVeificationStatus,
 } from "./Slices/userSlice.ts";
 import {
   UserAuthAPI,
@@ -14,6 +15,7 @@ import {
   useLogoutMutation,
   useSendResetPassWordEmailMutation,
   useSetNewPassWordMutation,
+  useConfirmEmailVerificationMutation,
 } from "./API/userAuthAPI";
 
 import { persistStore, persistReducer } from "redux-persist";
@@ -56,7 +58,9 @@ export {
   useLogoutMutation,
   useSendResetPassWordEmailMutation,
   useSetNewPassWordMutation,
+  useConfirmEmailVerificationMutation,
   // user auth slice
   loginSuccess,
   logoutSuccess,
+  changeEmailVeificationStatus,
 };

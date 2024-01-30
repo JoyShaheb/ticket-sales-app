@@ -12,6 +12,8 @@ import {
   Checkout,
   Bookmarks,
   VerifyEmail,
+  UrlReRoute,
+  VerifyEmailRequest,
 } from "./pages";
 import { AdminDashboard, EventCreation } from "./pages/AdminPages/";
 import Sidebar from "./components/SideBar/Sidebar";
@@ -54,11 +56,18 @@ const App = () => {
           {/* General Pages */}
           <Route path="/" element={<Events />} />
           <Route path="/event-details-page" element={<EventDetailsPage />} />
+          {/* this route is used to process email verification request */}
+          <Route
+            path="/verify-email-request"
+            element={<VerifyEmailRequest />}
+          />
+          <Route path="/url-reroute" element={<UrlReRoute />} />
           <Route path="*" element={<ErrorPage />} />
 
           {/* Reset and forgot belongs to general pages because both auth and non-auth users can use these services */}
           <Route path="/reset-password" element={<ResetPassword />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
+          {/* this route is used to send verify email request */}
           <Route path="/verify-email" element={<VerifyEmail />} />
 
           {/* ! User Pages */}

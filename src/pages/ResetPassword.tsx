@@ -26,6 +26,10 @@ const Login = () => {
     "oobCode"
   ) as string;
 
+  const continueUrl = new URLSearchParams(window.location.search).get(
+    "continueUrl"
+  ) as string;
+
   const [setNewPassWord] = useSetNewPassWordMutation();
 
   const handleRseetPassword = async (e: FormEvent) => {
@@ -37,7 +41,7 @@ const Login = () => {
       })
         .unwrap()
         .then(() => setData(initialState))
-        .then(() => navigate("/login")),
+        .then(() => navigate(continueUrl)),
       {
         loading: "Resetting password...",
         success: "Password Reset successful",

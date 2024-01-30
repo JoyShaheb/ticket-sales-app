@@ -9,6 +9,8 @@ import {
   sendPasswordResetEmail,
   confirmPasswordReset,
   sendEmailVerification,
+  User,
+  applyActionCode,
 } from "firebase/auth";
 
 export interface IUserSignInData {
@@ -79,8 +81,10 @@ export const UserAuthAPI = createApi({
     sendEmailVerification: builder.mutation<string, null>({
       queryFn: async () => {
         try {
-          // @ts-ignore
-          await sendEmailVerification(auth.currentUser);
+          await sendEmailVerification(auth.currentUser as User, {
+            // redirect to this page only after request is successful
+            url: "http://localhost:5173/",
+          });
           return {
             data: "Email verification sent to your email",
           };
@@ -90,6 +94,21 @@ export const UserAuthAPI = createApi({
           };
         }
       },
+    }),
+    confirmEmailVerification: builder.mutation<any, any>({
+      queryFn: async ({ oobCode }) => {
+        try {
+          await applyActionCode(auth, oobCode);
+          return {
+            data: "Successfully verified Email",
+          };
+        } catch (err) {
+          return {
+            error: (err as Error)?.message,
+          };
+        }
+      },
+      invalidatesTags: ["User"],
     }),
     googleSignup: builder.mutation<UserCredential, null>({
       queryFn: async () => {
@@ -116,7 +135,8 @@ export const UserAuthAPI = createApi({
       queryFn: async ({ email }) => {
         try {
           await sendPasswordResetEmail(auth, email, {
-            url: "http://localhost:5173/login",
+            // redirect to this page only after request is successful
+            url: "http://localhost:5173/",
           });
           return {
             data: "Password reset link sent to your email",
@@ -162,4 +182,5 @@ export const {
   useSendResetPassWordEmailMutation,
   useSetNewPassWordMutation,
   useSendEmailVerificationMutation,
+  useConfirmEmailVerificationMutation,
 } = UserAuthAPI;
