@@ -10,6 +10,8 @@ import EventDetailsPage from "./EventDetailsPage";
 import Checkout from "./Checkout";
 import Bookmarks from "./Bookmarks";
 import VerifyEmail from "./VerifyEmail";
+import UrlReRoute from "./UrlReRoute";
+import VerifyEmailRequest from "./VerifyEmailRequest";
 
 export {
   Signup,
@@ -24,4 +26,6 @@ export {
   ResetPassword,
   Checkout,
   VerifyEmail,
+  UrlReRoute,
+  VerifyEmailRequest,
 };
