@@ -23,7 +23,7 @@ const Signup = () => {
   };
 
   const navigate = useNavigate();
-  const [data, setData] = useState(initialState);
+  const [data, setData] = useState<IUserSignInData>(initialState);
 
   const [emailSignup] = useEmailSignupMutation();
   const [googleSignup] = useGoogleSignupMutation();

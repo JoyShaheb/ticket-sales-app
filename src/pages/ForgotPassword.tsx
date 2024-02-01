@@ -21,7 +21,8 @@ const Login = () => {
     email: "",
   };
 
-  const [data, setData] = useState(initialState);
+  const [data, setData] =
+    useState<Pick<IUserSignInData, "email">>(initialState);
 
   const [sendResetPassWordEmail] = useSendResetPassWordEmailMutation();
 
