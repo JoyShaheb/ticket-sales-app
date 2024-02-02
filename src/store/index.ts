@@ -17,7 +17,7 @@ import {
   useSetNewPassWordMutation,
   useConfirmEmailVerificationMutation,
   useGetProfileDataQuery,
-  useUpdateUserProfileMutation
+  useUpdateUserProfileMutation,
 } from "./API/userAuthAPI";
 
 import { persistStore, persistReducer } from "redux-persist";

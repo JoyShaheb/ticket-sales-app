@@ -40,6 +40,8 @@ const Profile = () => {
     userId,
   });
 
+  // console.log("profile", profileData);
+
   const [data, setData] = useState<IProfileData>({
     uid: userId,
     displayName: "",

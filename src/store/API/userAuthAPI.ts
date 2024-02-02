@@ -48,14 +48,28 @@ export const UserAuthAPI = createApi({
           const response: UserCredential = await createUserWithEmailAndPassword(
             auth,
             email,
-            password
+            password,
           );
+
+          const documentName = response?.user?.uid;
+          const userDocRef = doc(db, usersCollectionName, documentName);
+
+          await setDoc(userDocRef, {
+            uid: response?.user?.uid,
+            displayName: response?.user?.displayName || "",
+            fullName: "",
+            address: "",
+            phoneNumber: response?.user?.phoneNumber || "",
+            photoURL: response?.user?.photoURL || "",
+          }).then(() => {
+            sendEmailVerification(auth.currentUser as User);
+          });
           return {
-            data: response, // Corrected the return type to match QueryReturnValue
+            data: response,
           };
         } catch (err) {
           return {
-            error: (err as Error)?.message, // Added type assertion to access message property
+            error: (err as Error)?.message,
           };
         }
       },
@@ -175,55 +189,55 @@ export const UserAuthAPI = createApi({
       invalidatesTags: ["User"],
     }),
 
-        // get user profile
-        getProfileData: builder.query<
-        any,
-        {
-          userId: string;
+    // get user profile
+    getProfileData: builder.query<
+      any,
+      {
+        userId: string;
+      }
+    >({
+      queryFn: async ({ userId }) => {
+        try {
+          const userDoc = await getDoc(doc(db, usersCollectionName, userId));
+          const docData = userDoc.data();
+
+          return {
+            data: docData as any,
+          };
+        } catch (err) {
+          return {
+            error: (err as Error)?.message,
+          };
         }
-      >({
-        queryFn: async ({ userId }) => {
-          try {
-            const userDoc = await getDoc(doc(db, usersCollectionName, userId));
-            const docData = userDoc.data();
-  
-            return {
-              data: docData as any,
-            };
-          } catch (err) {
-            return {
-              error: (err as Error)?.message,
-            };
+      },
+      providesTags: ["User"],
+    }),
+
+    // update user profile
+    updateUserProfile: builder.mutation({
+      queryFn: async (data: any) => {
+        try {
+          const findUserDoc = await getDoc(
+            doc(db, usersCollectionName, data?.uid)
+          );
+
+          if (findUserDoc.exists()) {
+            await setDoc(doc(db, usersCollectionName, data?.uid), {
+              ...data,
+            });
           }
-        },
-        providesTags: ["User"],
-      }),
-  
-      // update user profile
-      updateUserProfile: builder.mutation({
-        queryFn: async (data: any) => {
-          try {
-            const findUserDoc = await getDoc(
-              doc(db, usersCollectionName, data?.uid),
-            );
-  
-            if (findUserDoc.exists()) {
-              await setDoc(doc(db, usersCollectionName, data?.uid), {
-                ...data,
-              });
-            }
-  
-            return {
-              data: null,
-            };
-          } catch (err) {
-            return {
-              error: (err as Error)?.message,
-            };
-          }
-        },
-        invalidatesTags: ["User"],
-      }),
+
+          return {
+            data: null,
+          };
+        } catch (err) {
+          return {
+            error: (err as Error)?.message,
+          };
+        }
+      },
+      invalidatesTags: ["User"],
+    }),
   }),
 });
 
@@ -237,5 +251,5 @@ export const {
   useSendEmailVerificationMutation,
   useConfirmEmailVerificationMutation,
   useGetProfileDataQuery,
-  useUpdateUserProfileMutation
+  useUpdateUserProfileMutation,
 } = UserAuthAPI;
