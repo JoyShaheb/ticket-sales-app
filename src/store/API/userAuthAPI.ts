@@ -1,5 +1,5 @@
 import { createApi, fakeBaseQuery } from "@reduxjs/toolkit/query/react";
-import { auth, googleProvider } from "../../config/firebase-config";
+import { auth, db, googleProvider } from "../../config/firebase-config";
 import {
   createUserWithEmailAndPassword,
   UserCredential,
@@ -12,11 +12,14 @@ import {
   User,
   applyActionCode,
 } from "firebase/auth";
+import { doc, getDoc, setDoc } from "firebase/firestore";
 
 export interface IUserSignInData {
   email: string;
   password: string;
 }
+
+const usersCollectionName = "Users";
 
 export const UserAuthAPI = createApi({
   reducerPath: "UserAuthAPI",
@@ -171,6 +174,56 @@ export const UserAuthAPI = createApi({
       },
       invalidatesTags: ["User"],
     }),
+
+        // get user profile
+        getProfileData: builder.query<
+        any,
+        {
+          userId: string;
+        }
+      >({
+        queryFn: async ({ userId }) => {
+          try {
+            const userDoc = await getDoc(doc(db, usersCollectionName, userId));
+            const docData = userDoc.data();
+  
+            return {
+              data: docData as any,
+            };
+          } catch (err) {
+            return {
+              error: (err as Error)?.message,
+            };
+          }
+        },
+        providesTags: ["User"],
+      }),
+  
+      // update user profile
+      updateUserProfile: builder.mutation({
+        queryFn: async (data: any) => {
+          try {
+            const findUserDoc = await getDoc(
+              doc(db, usersCollectionName, data?.uid),
+            );
+  
+            if (findUserDoc.exists()) {
+              await setDoc(doc(db, usersCollectionName, data?.uid), {
+                ...data,
+              });
+            }
+  
+            return {
+              data: null,
+            };
+          } catch (err) {
+            return {
+              error: (err as Error)?.message,
+            };
+          }
+        },
+        invalidatesTags: ["User"],
+      }),
   }),
 });
 
@@ -183,4 +236,6 @@ export const {
   useSetNewPassWordMutation,
   useSendEmailVerificationMutation,
   useConfirmEmailVerificationMutation,
+  useGetProfileDataQuery,
+  useUpdateUserProfileMutation
 } = UserAuthAPI;

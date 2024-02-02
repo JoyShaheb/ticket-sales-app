@@ -1,55 +1,72 @@
-import { logoutSuccess } from "@/store";
+import {
+  logoutSuccess,
+  useLogoutMutation,
+  RootState,
+  useGetProfileDataQuery,
+} from "@/store";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "@/store";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { IProfileData } from "@/types/interface";
 import { Button } from "@/components/ui/button";
-// import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 
 const Profile = () => {
   const dispatch = useDispatch();
-  // const navigate = useNavigate();
-  // const [logout] = useLogoutMutation();
+  const navigate = useNavigate();
+  const [logout] = useLogoutMutation();
 
   const appSignout = async () => {
-    dispatch(logoutSuccess());
+    try {
+      dispatch(logoutSuccess());
+      toast.promise(logout(null).unwrap(), {
+        loading: "Logging out...",
+        success: "Logout successful",
+        error: "Logout failed",
+      });
+      navigate("/login");
+    } catch (error) {
+      console.error("Error during logout:", error);
+    }
   };
-  const userId = useSelector((state: RootState) => state.user.uid);
-  // const {
-  //   data: profileData,
-  //   isError,
-  //   isFetching,
-  //   isLoading,
-  // } = useGetProfileDataQuery({
-  //   userId,
-  // });
 
-  const [data] = useState<IProfileData>({
+  const userId = useSelector((state: RootState) => state.user.uid);
+  const {
+    data: profileData,
+    isError,
+    isFetching,
+    isLoading,
+  } = useGetProfileDataQuery({
+    userId,
+  });
+
+  const [data, setData] = useState<IProfileData>({
     uid: userId,
-    username: "",
-    firstName: "",
-    lastName: "",
+    displayName: "",
+    fullName: "",
     email: "",
-    photo: "",
-    phone: "",
+    photoURL: "",
+    phoneNumber: "",
     address: "",
   });
 
-  // useEffect(() => {
-  //   setData(profileData as IProfileData);
-  // }, [profileData]);
+  useEffect(() => {
+    if (profileData) {
+      setData(profileData as IProfileData);
+    }
+  }, [profileData]);
 
-  // if (isFetching || isLoading) {
-  //   return <div className="">Loading, please wait....</div>;
-  // }
+  if (isFetching || isLoading) {
+    return <div className="">Loading, please wait....</div>;
+  }
 
-  // if (isError) {
-  //   return <div className="">Error occured please try again</div>;
-  // }
+  if (isError) {
+    return <div className="">Error occurred, please try again</div>;
+  }
 
   return (
     <div>
-      <h3>Welcome {data?.firstName}</h3>
+      <h3>Welcome {data?.fullName}</h3>
       <p>Email: {data?.email}</p>
       <img
         className="mb-3"
@@ -57,7 +74,9 @@ const Profile = () => {
           width: "120px",
           height: "120px",
         }}
-        src={data?.photo ? data?.photo : "/images/blank-profile-picture.svg"}
+        src={
+          data?.photoURL ? data?.photoURL : "public/blank-profile-picture.png"
+        }
         alt=""
       />
       <br />
