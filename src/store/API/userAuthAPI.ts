@@ -61,6 +61,7 @@ export const UserAuthAPI = createApi({
             address: "",
             phoneNumber: response?.user?.phoneNumber || "",
             photoURL: response?.user?.photoURL || "",
+            email: response?.user?.email || "",
           }).then(() => {
             sendEmailVerification(auth.currentUser as User);
           });
