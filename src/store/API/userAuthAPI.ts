@@ -48,7 +48,7 @@ export const UserAuthAPI = createApi({
           const response: UserCredential = await createUserWithEmailAndPassword(
             auth,
             email,
-            password,
+            password
           );
 
           const documentName = response?.user?.uid;

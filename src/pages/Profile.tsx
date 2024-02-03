@@ -3,6 +3,7 @@ import {
   useLogoutMutation,
   RootState,
   useGetProfileDataQuery,
+  useUpdateUserProfileMutation,
 } from "@/store";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
@@ -10,6 +11,7 @@ import { IProfileData } from "@/types/interface";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
+import EditProfileDialog from "@/components/EditProfileDialog";
 
 const Profile = () => {
   const dispatch = useDispatch();
@@ -40,8 +42,6 @@ const Profile = () => {
     userId,
   });
 
-  // console.log("profile", profileData);
-
   const [data, setData] = useState<IProfileData>({
     uid: userId,
     displayName: "",
@@ -58,6 +58,15 @@ const Profile = () => {
     }
   }, [profileData]);
 
+  const [updateProfile] = useUpdateUserProfileMutation();
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setData({
+      ...data,
+      [e.target.name]: e.target.value,
+    });
+  };
+
   if (isFetching || isLoading) {
     return <div className="">Loading, please wait....</div>;
   }
@@ -65,6 +74,16 @@ const Profile = () => {
   if (isError) {
     return <div className="">Error occurred, please try again</div>;
   }
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    toast.promise(updateProfile(data as IProfileData).unwrap(), {
+      loading: "Updating Profile...",
+      success: "Profile Updated Successfully",
+      error: "Error Updating Profile",
+    });
+  };
 
   return (
     <div>
@@ -85,6 +104,13 @@ const Profile = () => {
       <Button variant="default" onClick={appSignout}>
         Logout
       </Button>
+      <br />
+      <br />
+      <EditProfileDialog
+        handleInputChange={handleInputChange}
+        handleSubmit={handleSubmit}
+        {...data}
+      />
     </div>
   );
 };
