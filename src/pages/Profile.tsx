@@ -75,7 +75,7 @@ const Profile = () => {
     return <div className="">Error occurred, please try again</div>;
   }
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
     toast.promise(updateProfile(data as IProfileData).unwrap(), {
@@ -101,7 +101,7 @@ const Profile = () => {
         alt=""
       />
       <br />
-      <Button variant="default" onClick={appSignout}>
+      <Button variant={"outline"} onClick={appSignout}>
         Logout
       </Button>
       <br />

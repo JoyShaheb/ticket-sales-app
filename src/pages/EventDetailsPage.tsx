@@ -22,7 +22,7 @@ const EventDetailsPage = () => {
 
   const [data] = useState<IProfileData>({
     fullName: "",
-    username: "",
+    displayName: "",
     phoneNumber: "",
     photoURL: "",
     uid: "",
@@ -70,7 +70,7 @@ const EventDetailsPage = () => {
           // onChange={handleInputChange}
           placeholder="Display Name"
           type="text"
-          value={data?.username}
+          value={data?.displayName}
           label="Display Name"
         />
         <InputFieldWithLabel

@@ -10,11 +10,12 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { ChangeEvent, FormEvent } from "react";
+import { ChangeEvent, MouseEventHandler } from "react";
+// import InputFieldWithLabel from "./Form/InputFieldWithLabel";
 
 interface EditProfileDialogProps {
   handleInputChange: (e: ChangeEvent<HTMLInputElement>) => void; // Change type to ChangeEvent
-  handleSubmit: (e: FormEvent<HTMLFormElement>) => void;
+  handleSubmit: MouseEventHandler<HTMLButtonElement>;
   displayName: string;
   fullName: string;
   email: string;
@@ -46,12 +47,18 @@ const EditProfileDialog: React.FC<EditProfileDialogProps> = ({
           </DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
+          {/* <InputFieldWithLabel
+            name={displayName}
+            label={"User Name"}
+            type={"text"}
+            placeholder={"Your User Name here..."}
+          /> */}
           <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="displayName" className="text-right">
-              Display Name
+              User Name
             </Label>
             <Input
-              id="displayName"
+              name="displayName"
               value={displayName}
               className="col-span-3"
               onChange={handleInputChange}
@@ -63,7 +70,7 @@ const EditProfileDialog: React.FC<EditProfileDialogProps> = ({
               Full Name
             </Label>
             <Input
-              id="fullName"
+              name="fullName"
               value={fullName}
               className="col-span-3"
               onChange={handleInputChange}
@@ -75,8 +82,32 @@ const EditProfileDialog: React.FC<EditProfileDialogProps> = ({
               Email
             </Label>
             <Input
-              id="email"
+              name="email"
               value={email}
+              className="col-span-3"
+              onChange={handleInputChange}
+              type="text"
+            />
+          </div>
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label htmlFor="address" className="text-right">
+              Adress
+            </Label>
+            <Input
+              name="address"
+              value={address}
+              className="col-span-3"
+              onChange={handleInputChange}
+              type="text"
+            />
+          </div>
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label htmlFor="phoneNumber" className="text-right">
+              Phone Number
+            </Label>
+            <Input
+              name="phoneNumber"
+              value={phoneNumber}
               className="col-span-3"
               onChange={handleInputChange}
               type="text"
@@ -87,35 +118,11 @@ const EditProfileDialog: React.FC<EditProfileDialogProps> = ({
               Photo
             </Label>
             <Input
-              id="photoURL"
+              name="photoURL"
               value={photoURL}
               className="col-span-3"
               onChange={handleInputChange}
-              type="text"
-            />
-          </div>
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="address" className="text-right">
-              Photo
-            </Label>
-            <Input
-              id="address"
-              value={address}
-              className="col-span-3"
-              onChange={handleInputChange}
               type="file"
-            />
-          </div>
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="phoneNumber" className="text-right">
-              Phone Number
-            </Label>
-            <Input
-              id="phoneNumber"
-              value={phoneNumber}
-              className="col-span-3"
-              onChange={handleInputChange}
-              type="text"
             />
           </div>
         </div>
