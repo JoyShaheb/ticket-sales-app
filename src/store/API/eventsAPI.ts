@@ -30,7 +30,7 @@ export const eventsAPI = createApi({
       queryFn: async ({ userID }) => {
         const requestQuery = query(
           collection(db, eventsCollectionName),
-          where("userOwner", "==", userID),
+          where("userOwner", "==", userID)
         );
 
         const getAllevents = await getDocs(requestQuery);
@@ -78,12 +78,7 @@ export const eventsAPI = createApi({
     }),
 
     createOneEvent: builder.mutation<string, NewEventType>({
-      queryFn: async ({
-        date,
-        description,
-        title,
-        userOwner,
-      }) => {
+      queryFn: async ({ date, description, title, userOwner }) => {
         await addDoc(collection(db, eventsCollectionName), {
           date,
           description,
@@ -109,7 +104,6 @@ export const eventsAPI = createApi({
           await updateDoc(docRef, {
             date,
             description,
-            
 
             title,
           });
@@ -129,8 +123,8 @@ export const eventsAPI = createApi({
 });
 
 export const {
-useGetAllEventsQuery,
-useCreateOneEventMutation,
-useDeleteOneEventMutation,
-useEditOneEventMutation
+  useGetAllEventsQuery,
+  useCreateOneEventMutation,
+  useDeleteOneEventMutation,
+  useEditOneEventMutation,
 } = eventsAPI;

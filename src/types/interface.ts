@@ -19,11 +19,10 @@ export interface IUpdateUser {
   phoneNumber: string;
 }
 
-
 export interface IEventsProps {
   id: string;
   title: string;
   description: string;
   date: Date;
-  userOwner: string
+  userOwner: string;
 }

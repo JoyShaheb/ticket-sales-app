@@ -25,8 +25,8 @@ import {
   useCreateOneEventMutation,
   useDeleteOneEventMutation,
   useEditOneEventMutation,
-  eventsAPI
-  } from "./API/eventsAPI.ts";
+  eventsAPI,
+} from "./API/eventsAPI.ts";
 
 import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
@@ -47,15 +47,12 @@ export const store = configureStore({
     system: persistedSystemReducer,
     user: persistedUserReducer,
     [UserAuthAPI.reducerPath]: UserAuthAPI.reducer,
-    [eventsAPI.reducerPath]: eventsAPI.reducer
+    [eventsAPI.reducerPath]: eventsAPI.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: false,
-    }).concat(
-      UserAuthAPI.middleware,
-      eventsAPI.middleware,
-      ),
+    }).concat(UserAuthAPI.middleware, eventsAPI.middleware),
 });
 
 export const persistedStore = persistStore(store);
@@ -84,5 +81,5 @@ export {
   useGetAllEventsQuery,
   useCreateOneEventMutation,
   useDeleteOneEventMutation,
-  useEditOneEventMutation
+  useEditOneEventMutation,
 };
