@@ -1,27 +1,25 @@
 import {
-  logoutSuccess,
   useLogoutMutation,
   RootState,
   useGetProfileDataQuery,
   useUpdateUserProfileMutation,
 } from "@/store";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { IProfileData } from "@/types/interface";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import EditProfileDialog from "@/components/EditProfileDialog";
+import ProfileSkeleton from "@/components/Skeleton/ProfileSkeleton";
 
 const Profile = () => {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [logout] = useLogoutMutation();
 
   const appSignout = async () => {
     try {
-      dispatch(logoutSuccess());
-      toast.promise(logout(null).unwrap(), {
+      toast.promise(logout().unwrap(), {
         loading: "Logging out...",
         success: "Logout successful",
         error: "Logout failed",
@@ -68,11 +66,11 @@ const Profile = () => {
   };
 
   if (isFetching || isLoading) {
-    return <div className="">Loading, please wait....</div>;
+    return <ProfileSkeleton />;
   }
 
   if (isError) {
-    return <div className="">Error occurred, please try again</div>;
+    return <h1 className="text-3xl">Error occurred, please try again</h1>;
   }
 
   const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -101,7 +99,7 @@ const Profile = () => {
         alt=""
       />
       <br />
-      <Button variant={"outline"} onClick={appSignout}>
+      <Button variant="outline" onClick={appSignout}>
         Logout
       </Button>
       <br />

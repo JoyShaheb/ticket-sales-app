@@ -13,8 +13,7 @@ export interface IUserSignInData {
   password: string;
 }
 
-export interface IUpdateUser {
+export interface IUpdateUser
+  extends Pick<IProfileData, "phoneNumber" | "photoURL"> {
   name: string;
-  photoURL: string;
-  phoneNumber: string;
 }

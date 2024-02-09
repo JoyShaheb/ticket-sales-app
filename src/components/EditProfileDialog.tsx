@@ -14,6 +14,7 @@ import { ChangeEvent, MouseEventHandler } from "react";
 // import InputFieldWithLabel from "./Form/InputFieldWithLabel";
 
 interface EditProfileDialogProps {
+  // eslint-disable-next-line no-unused-vars
   handleInputChange: (e: ChangeEvent<HTMLInputElement>) => void; // Change type to ChangeEvent
   handleSubmit: MouseEventHandler<HTMLButtonElement>;
   displayName: string;
