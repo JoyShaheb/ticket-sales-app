@@ -20,6 +20,14 @@ import {
   useUpdateUserProfileMutation,
 } from "./API/userAuthAPI";
 
+import {
+  useGetAllEventsQuery,
+  useCreateOneEventMutation,
+  useDeleteOneEventMutation,
+  useEditOneEventMutation,
+  eventsAPI
+  } from "./API/eventsAPI.ts";
+
 import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 const persistConfig = {
@@ -39,11 +47,15 @@ export const store = configureStore({
     system: persistedSystemReducer,
     user: persistedUserReducer,
     [UserAuthAPI.reducerPath]: UserAuthAPI.reducer,
+    [eventsAPI.reducerPath]: eventsAPI.reducer
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: false,
-    }).concat(UserAuthAPI.middleware),
+    }).concat(
+      UserAuthAPI.middleware,
+      eventsAPI.middleware,
+      ),
 });
 
 export const persistedStore = persistStore(store);
@@ -67,4 +79,10 @@ export {
   loginSuccess,
   logoutSuccess,
   changeEmailVeificationStatus,
+
+  // events
+  useGetAllEventsQuery,
+  useCreateOneEventMutation,
+  useDeleteOneEventMutation,
+  useEditOneEventMutation
 };

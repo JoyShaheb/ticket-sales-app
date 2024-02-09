@@ -18,3 +18,12 @@ export interface IUpdateUser {
   photoURL: string;
   phoneNumber: string;
 }
+
+
+export interface IEventsProps {
+  id: string;
+  title: string;
+  description: string;
+  date: Date;
+  userOwner: string
+}
