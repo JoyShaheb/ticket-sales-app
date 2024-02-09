@@ -23,7 +23,7 @@ const Signup = () => {
   };
 
   const navigate = useNavigate();
-  const [data, setData] = useState(initialState);
+  const [data, setData] = useState<IUserSignInData>(initialState);
 
   const [emailSignup] = useEmailSignupMutation();
   const [googleSignup] = useGoogleSignupMutation();
@@ -38,6 +38,7 @@ const Signup = () => {
       loading: "Creating user...",
       success: () => {
         // Successfully created user, now navigate to /login
+        setData(initialState);
         navigate("/login");
         return "Successfully created user!";
       },

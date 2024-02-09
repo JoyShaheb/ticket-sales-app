@@ -20,7 +20,8 @@ const Login = () => {
   const initialState: Pick<IUserSignInData, "password"> = {
     password: "",
   };
-  const [data, setData] = useState(initialState);
+  const [data, setData] =
+    useState<Pick<IUserSignInData, "password">>(initialState);
 
   const oobCode = new URLSearchParams(window.location.search).get(
     "oobCode"

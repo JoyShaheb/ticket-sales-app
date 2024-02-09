@@ -25,7 +25,7 @@ const Login = () => {
   };
 
   const navigate = useNavigate();
-  const [data, setData] = useState(initialState);
+  const [data, setData] = useState<IUserSignInData>(initialState);
 
   const [emailLogin] = useEmailLoginMutation();
   const [googleSignup] = useGoogleSignupMutation();
