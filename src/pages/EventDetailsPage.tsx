@@ -21,11 +21,10 @@ const EventDetailsPage = () => {
   // });
 
   const [data] = useState<IProfileData>({
-    firstName: "",
-    lastName: "",
-    username: "",
-    phone: "",
-    photo: "",
+    fullName: "",
+    displayName: "",
+    phoneNumber: "",
+    photoURL: "",
     uid: "",
     email: "",
     address: "",
@@ -71,31 +70,24 @@ const EventDetailsPage = () => {
           // onChange={handleInputChange}
           placeholder="Display Name"
           type="text"
-          value={data?.username}
+          value={data?.displayName}
           label="Display Name"
         />
         <InputFieldWithLabel
-          name="firstName"
+          name="fullName"
           // onChange={handleInputChange}
           placeholder="Your First Name"
           type="text"
-          value={data?.firstName}
+          value={data?.fullName}
           label="First Name"
         />
+
         <InputFieldWithLabel
-          name="lastName"
-          // onChange={handleInputChange}
-          placeholder="Your Last Name"
-          type="text"
-          value={data?.lastName}
-          label="Last Name"
-        />
-        <InputFieldWithLabel
-          name="phone"
+          name="phoneNumber"
           // onChange={handleInputChange}
           placeholder="Your Phone Number"
           type="text"
-          value={data?.phone}
+          value={data?.phoneNumber}
           label="Phone Number"
         />
         <Button type="submit">Save Profile Details</Button>

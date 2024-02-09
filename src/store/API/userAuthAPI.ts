@@ -1,5 +1,5 @@
 import { createApi, fakeBaseQuery } from "@reduxjs/toolkit/query/react";
-import { auth, googleProvider } from "../../config/firebase-config";
+import { auth, db, googleProvider } from "../../config/firebase-config";
 import {
   createUserWithEmailAndPassword,
   UserCredential,
@@ -12,18 +12,21 @@ import {
   User,
   applyActionCode,
 } from "firebase/auth";
+import { doc, getDoc, setDoc } from "firebase/firestore";
 
 export interface IUserSignInData {
   email: string;
   password: string;
 }
 
+const usersCollectionName = "Users";
+
 export const UserAuthAPI = createApi({
   reducerPath: "UserAuthAPI",
   baseQuery: fakeBaseQuery(),
   tagTypes: ["User", "UpdateUser"],
   endpoints: (builder) => ({
-    logout: builder.mutation<void, null>({
+    logout: builder.mutation<void, void>({
       queryFn: async () => {
         try {
           await signOut(auth);
@@ -47,12 +50,27 @@ export const UserAuthAPI = createApi({
             email,
             password
           );
+
+          const documentName = response?.user?.uid;
+          const userDocRef = doc(db, usersCollectionName, documentName);
+
+          await setDoc(userDocRef, {
+            uid: response?.user?.uid,
+            displayName: response?.user?.displayName || "",
+            fullName: "",
+            address: "",
+            phoneNumber: response?.user?.phoneNumber || "",
+            photoURL: response?.user?.photoURL || "",
+            email: response?.user?.email || "",
+          }).then(() => {
+            sendEmailVerification(auth.currentUser as User);
+          });
           return {
-            data: response, // Corrected the return type to match QueryReturnValue
+            data: response,
           };
         } catch (err) {
           return {
-            error: (err as Error)?.message, // Added type assertion to access message property
+            error: (err as Error)?.message,
           };
         }
       },
@@ -171,6 +189,56 @@ export const UserAuthAPI = createApi({
       },
       invalidatesTags: ["User"],
     }),
+
+    // get user profile
+    getProfileData: builder.query<
+      any,
+      {
+        userId: string;
+      }
+    >({
+      queryFn: async ({ userId }) => {
+        try {
+          const userDoc = await getDoc(doc(db, usersCollectionName, userId));
+          const docData = userDoc.data();
+
+          return {
+            data: docData as any,
+          };
+        } catch (err) {
+          return {
+            error: (err as Error)?.message,
+          };
+        }
+      },
+      providesTags: ["User"],
+    }),
+
+    // update user profile
+    updateUserProfile: builder.mutation({
+      queryFn: async (data: any) => {
+        try {
+          const findUserDoc = await getDoc(
+            doc(db, usersCollectionName, data?.uid)
+          );
+
+          if (findUserDoc.exists()) {
+            await setDoc(doc(db, usersCollectionName, data?.uid), {
+              ...data,
+            });
+          }
+
+          return {
+            data: null,
+          };
+        } catch (err) {
+          return {
+            error: (err as Error)?.message,
+          };
+        }
+      },
+      invalidatesTags: ["User"],
+    }),
   }),
 });
 
@@ -183,4 +251,6 @@ export const {
   useSetNewPassWordMutation,
   useSendEmailVerificationMutation,
   useConfirmEmailVerificationMutation,
+  useGetProfileDataQuery,
+  useUpdateUserProfileMutation,
 } = UserAuthAPI;

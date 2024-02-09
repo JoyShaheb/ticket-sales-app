@@ -1,55 +1,91 @@
-import { logoutSuccess } from "@/store";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "@/store";
-import { useState } from "react";
+import {
+  useLogoutMutation,
+  RootState,
+  useGetProfileDataQuery,
+  useUpdateUserProfileMutation,
+} from "@/store";
+import { useSelector } from "react-redux";
+import { useEffect, useState } from "react";
 import { IProfileData } from "@/types/interface";
 import { Button } from "@/components/ui/button";
-// import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
+import EditProfileDialog from "@/components/EditProfileDialog";
+import ProfileSkeleton from "@/components/Skeleton/ProfileSkeleton";
 
 const Profile = () => {
-  const dispatch = useDispatch();
-  // const navigate = useNavigate();
-  // const [logout] = useLogoutMutation();
+  const navigate = useNavigate();
+  const [logout] = useLogoutMutation();
 
   const appSignout = async () => {
-    dispatch(logoutSuccess());
+    try {
+      toast.promise(logout().unwrap(), {
+        loading: "Logging out...",
+        success: "Logout successful",
+        error: "Logout failed",
+      });
+      navigate("/login");
+    } catch (error) {
+      console.error("Error during logout:", error);
+    }
   };
-  const userId = useSelector((state: RootState) => state.user.uid);
-  // const {
-  //   data: profileData,
-  //   isError,
-  //   isFetching,
-  //   isLoading,
-  // } = useGetProfileDataQuery({
-  //   userId,
-  // });
 
-  const [data] = useState<IProfileData>({
+  const userId = useSelector((state: RootState) => state.user.uid);
+  const {
+    data: profileData,
+    isError,
+    isFetching,
+    isLoading,
+  } = useGetProfileDataQuery({
+    userId,
+  });
+
+  const [data, setData] = useState<IProfileData>({
     uid: userId,
-    username: "",
-    firstName: "",
-    lastName: "",
+    displayName: "",
+    fullName: "",
     email: "",
-    photo: "",
-    phone: "",
+    photoURL: "",
+    phoneNumber: "",
     address: "",
   });
 
-  // useEffect(() => {
-  //   setData(profileData as IProfileData);
-  // }, [profileData]);
+  useEffect(() => {
+    if (profileData) {
+      setData(profileData as IProfileData);
+    }
+  }, [profileData]);
 
-  // if (isFetching || isLoading) {
-  //   return <div className="">Loading, please wait....</div>;
-  // }
+  const [updateProfile] = useUpdateUserProfileMutation();
 
-  // if (isError) {
-  //   return <div className="">Error occured please try again</div>;
-  // }
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setData({
+      ...data,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  if (isFetching || isLoading) {
+    return <ProfileSkeleton />;
+  }
+
+  if (isError) {
+    return <h1 className="text-3xl">Error occurred, please try again</h1>;
+  }
+
+  const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+
+    toast.promise(updateProfile(data as IProfileData).unwrap(), {
+      loading: "Updating Profile...",
+      success: "Profile Updated Successfully",
+      error: "Error Updating Profile",
+    });
+  };
 
   return (
     <div>
-      <h3>Welcome {data?.firstName}</h3>
+      <h3>Welcome {data?.fullName}</h3>
       <p>Email: {data?.email}</p>
       <img
         className="mb-3"
@@ -57,13 +93,22 @@ const Profile = () => {
           width: "120px",
           height: "120px",
         }}
-        src={data?.photo ? data?.photo : "/images/blank-profile-picture.svg"}
+        src={
+          data?.photoURL ? data?.photoURL : "public/blank-profile-picture.png"
+        }
         alt=""
       />
       <br />
-      <Button variant="default" onClick={appSignout}>
+      <Button variant="outline" onClick={appSignout}>
         Logout
       </Button>
+      <br />
+      <br />
+      <EditProfileDialog
+        handleInputChange={handleInputChange}
+        handleSubmit={handleSubmit}
+        {...data}
+      />
     </div>
   );
 };

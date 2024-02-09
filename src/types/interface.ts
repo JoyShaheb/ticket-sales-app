@@ -1,12 +1,11 @@
 export interface IProfileData {
   uid: string;
-  username: string;
-  firstName: string;
-  lastName: string;
+  displayName: string;
+  fullName: string;
   email: string;
   address: string;
-  phone: string;
-  photo: string;
+  phoneNumber: string;
+  photoURL: string;
 }
 
 export interface IUserSignInData {
@@ -14,8 +13,7 @@ export interface IUserSignInData {
   password: string;
 }
 
-export interface IUpdateUser {
+export interface IUpdateUser
+  extends Pick<IProfileData, "phoneNumber" | "photoURL"> {
   name: string;
-  photoURL: string;
-  phoneNumber: string;
 }

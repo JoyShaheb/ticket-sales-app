@@ -1,10 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
-// import {
-//   logoutSuccess,
-//   themeSwitch,
-// } from "../../store";
 import { useEffect } from "react";
 import { ThemeTypesEnum } from "@/types/enum";
 import SideBarMenu from "./SideBarMenu";
@@ -20,7 +16,7 @@ const Sidebar = ({ children }: { children: React.ReactNode }) => {
 
   const appSignout = async () => {
     toast.promise(
-      logout(null)
+      logout()
         .unwrap()
         .then(() => navigate("/login")),
       {
