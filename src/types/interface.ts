@@ -17,3 +17,11 @@ export interface IUpdateUser
   extends Pick<IProfileData, "phoneNumber" | "photoURL"> {
   name: string;
 }
+
+export interface IEventsProps {
+  id: string;
+  title: string;
+  description: string;
+  date: Date;
+  userOwner: string;
+}
