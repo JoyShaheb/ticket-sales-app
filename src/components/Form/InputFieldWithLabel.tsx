@@ -1,6 +1,6 @@
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { FC } from "react";
+import { ChangeEvent, FC } from "react";
 
 interface iInputFieldProps {
   name: string;
@@ -8,7 +8,7 @@ interface iInputFieldProps {
   type: React.HTMLInputTypeAttribute;
   placeholder: string;
   required?: boolean;
-  onChange?: () => void;
+  onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
   value?: string | number;
 }
 
