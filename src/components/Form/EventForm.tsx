@@ -4,17 +4,13 @@ import { Label } from "@radix-ui/react-label";
 
 const EventForm = ({
   title,
-  deadline,
-  status,
-  label,
+  date,
   description,
   handleInput, // Update the prop type
   onDateChange,
 }: {
   title: string;
-  deadline: Date;
-  status: string;
-  label: string;
+  date: Date;
   description: string;
   handleInput: (e: React.ChangeEvent<HTMLInputElement>) => void; // Update the prop type
   onDateChange: (date: Date) => void;
@@ -48,24 +44,6 @@ const EventForm = ({
         onChange={handleInput}
         name="description"
         value={description}
-        required
-      />
-      <InputFieldWithLabel
-        label="Status"
-        placeholder="Current status of your Event"
-        type="text"
-        onChange={handleInput}
-        name="status"
-        value={status}
-        required
-      />
-      <InputFieldWithLabel
-        label="Label"
-        placeholder="Label for your Event"
-        type="text"
-        onChange={handleInput}
-        name="label"
-        value={label}
         required
       />
     </div>

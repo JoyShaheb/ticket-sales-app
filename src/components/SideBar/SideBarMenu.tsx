@@ -39,7 +39,7 @@ const SideBarMenu = ({
         <SidebarLink
           icon={<ShoppingBag className="w-4 h-4" />}
           label="Events"
-          path="/events"
+          path="/"
         />
         {!userUID && (
           <>
