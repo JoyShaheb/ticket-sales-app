@@ -106,50 +106,16 @@ const Events = () => {
           />
         </EventModal>
       </div>
-      <EventCard />
 
-      {/* Table */}
-      {/* <Table className="w-full rounded-md border">
-    <TableHeader>
-      <TableRow>
-        <TableHead className="w-[150px]">Event</TableHead>
-        <TableHead className="w-[240px]">Deadline</TableHead>
-        <TableHead className="w-[150px]">Status</TableHead>
-        <TableHead className="col-span-9">Description</TableHead>
-      </TableRow>
-    </TableHeader>
-    <TableBody>
-      {data?.map((Event: IEventProps) => {
-        return (
-          <TableRow key={Event?.id}>
-            <TableCell>{Event?.title}</TableCell>
-            <TableCell>
-              {Event?.deadline
-                ? // @ts-ignore
-                dayjs(Event?.deadline?.seconds * 1000).format(
-                  "dddd, MMMM D, YYYY",
-                )
-                : "No Deadline"}
-            </TableCell>
-            <TableCell>{Event?.status}</TableCell>
-            <TableCell className="flex gap-2 items-center">
-              <Button variant="outline" size="sm" className="text-xs">
-                {Event?.label ? Event?.label : "No Label"}
-              </Button>
-              {Event?.description}
-            </TableCell>
-            <TableCell>
-              <EventDropdown
-                deleteEvent={() => deleteEvent(Event?.id)}
-                EventData={Event}
-                onEdit={onEdit}
-              />
-            </TableCell>
-          </TableRow>
-        );
-      })}
-    </TableBody>
-  </Table> */}
+      {data?.map((event: IEventsProps) => (
+        <EventCard
+          key={event.id}
+          userOwner={event.userOwner}
+          date={new Date(event.date)} // Ensure the date property is converted to a Date object
+          description={event.description}
+          title={event.title}
+        />
+      ))}
     </div>
   );
 };

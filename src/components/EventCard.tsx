@@ -6,19 +6,22 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { NewEventType } from "@/types/types";
 
-const EventCard = () => {
+const EventCard = ({ date, description, title }: NewEventType) => {
+  const formattedDate = date.toLocaleDateString(); // Adjust the formatting as needed
+
   return (
     <Card className="w-[350px]">
       <CardHeader>
-        <CardTitle>Name of Event</CardTitle>
+        <CardTitle>{title}</CardTitle>
       </CardHeader>
       <CardContent>
-        <CardDescription>description</CardDescription>
+        <CardDescription>{description}</CardDescription>
         <img />
       </CardContent>
       <CardFooter className="flex justify-between">
-        <CardDescription>Date</CardDescription>
+        <CardDescription>{formattedDate}</CardDescription>
         <CardDescription>Location</CardDescription>
       </CardFooter>
     </Card>
