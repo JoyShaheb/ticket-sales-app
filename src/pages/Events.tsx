@@ -10,7 +10,7 @@ import {
 } from "@/store";
 import { IEventsProps } from "@/types/interface";
 import { NewEventType } from "@/types/types";
-
+import dayjs from "dayjs";
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { toast } from "sonner";
@@ -21,9 +21,11 @@ const Events = () => {
     date: new Date(),
     description: "",
     title: "",
+    location: "",
+    image: "",
     userOwner: userID,
   };
-  const [newEvent, setNewEvent] = React.useState<NewEventType>(initialState);
+  const [newEvent, setNewEvent] = useState<NewEventType>(initialState);
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) =>
     setNewEvent({
@@ -50,7 +52,7 @@ const Events = () => {
 
   const onSubmit: () => Promise<void> = async () => {
     try {
-      const result = await toast.promise(
+      toast.promise(
         createOneEvent(newEvent)
           .unwrap()
           .then(() => setNewEvent(initialState)),
@@ -60,13 +62,7 @@ const Events = () => {
           error: "Error creating Event",
         }
       );
-      // Assuming toast.promise resolves with the result you want to handle
-      // If it's not a promise, you might need to handle it differently
-      console.log(result);
-    } catch (error) {
-      // Handle errors if any
-      console.error(error);
-    }
+    } catch (error) {}
   };
 
   const onEdit = async (data: IEventsProps) => {
@@ -111,9 +107,20 @@ const Events = () => {
         <EventCard
           key={event.id}
           userOwner={event.userOwner}
-          date={new Date(event.date)} // Ensure the date property is converted to a Date object
+          // @ts-ignore
+          date={
+            event.date
+              ? // @ts-ignore
+                dayjs(event?.date?.seconds * 1000).format("dddd, MMMM D, YYYY")
+              : "No Deadline"
+          }
           description={event.description}
           title={event.title}
+          location={event?.location}
+          image={event?.image}
+          //@ts-ignore
+          deleteEvent={() => deleteEvent(event?.id)}
+          onEdit={onEdit}
         />
       ))}
     </div>
