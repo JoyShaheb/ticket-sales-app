@@ -6,16 +6,9 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { NewEventType } from "@/types/types";
 import EventDropdown from "./EventDropdown";
-import { IEventsProps } from "@/types/interface";
+import { IEventDataToUpdate, iExtendedEventType } from "@/types/interface";
 import dayjs from "dayjs";
-
-interface ExtendedEventType extends NewEventType {
-  id: string;
-  deleteEvent: (id: string) => Promise<string>;
-  onEdit: (data: IEventsProps) => Promise<void>;
-}
 
 const EventCard = ({
   date,
@@ -27,8 +20,8 @@ const EventCard = ({
   deleteEvent,
   onEdit,
   userOwner,
-}: ExtendedEventType) => {
-  const eventData = {
+}: iExtendedEventType) => {
+  const eventData: IEventDataToUpdate = {
     id,
     date,
     description,
@@ -42,7 +35,7 @@ const EventCard = ({
       <CardHeader className="flex justify-between">
         <CardTitle>{title}</CardTitle>
         <EventDropdown
-          deleteEvent={(id) => deleteEvent(id)}
+          deleteEvent={() => deleteEvent()}
           eventData={eventData}
           onEdit={onEdit}
         />

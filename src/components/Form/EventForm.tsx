@@ -1,6 +1,7 @@
 import InputFieldWithLabel from "./InputFieldWithLabel";
 import DatePicker from "./DatePicker";
 import { Label } from "@radix-ui/react-label";
+import { IEventsForm } from "@/types/interface";
 
 const EventForm = ({
   title,
@@ -10,15 +11,7 @@ const EventForm = ({
   image,
   handleInput, // Update the prop type
   onDateChange,
-}: {
-  title: string;
-  date: Date;
-  description: string;
-  location: string;
-  image: string;
-  handleInput: (e: React.ChangeEvent<HTMLInputElement>) => void; // Update the prop type
-  onDateChange: (date: Date) => void;
-}) => {
+}: IEventsForm) => {
   return (
     <div className="grid gap-4 py-4">
       <InputFieldWithLabel

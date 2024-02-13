@@ -12,14 +12,14 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { FC } from "react";
 import EditEventDialog from "./EditEventDialog";
-import { IEventsProps } from "@/types/interface";
+import { IExtendedEventType } from "@/types/interface";
 import DeleteModal from "./Modal/DeleteModal";
 
-const EventDropdown: FC<{
-  deleteEvent: (id: string) => Promise<string>;
-  eventData: IEventsProps;
-  onEdit: (data: IEventsProps) => Promise<void>;
-}> = ({ deleteEvent, eventData, onEdit }) => {
+const EventDropdown: FC<IExtendedEventType> = ({
+  deleteEvent,
+  eventData,
+  onEdit,
+}) => {
   return (
     <>
       <DropdownMenu>

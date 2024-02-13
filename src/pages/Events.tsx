@@ -62,7 +62,9 @@ const Events = () => {
           error: "Error creating Event",
         }
       );
-    } catch (error) {}
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const onEdit = async (data: IEventsProps) => {
@@ -107,10 +109,10 @@ const Events = () => {
         <EventCard
           key={event.id}
           userOwner={event.userOwner}
-          // @ts-ignore
+          // @ts-expect-error: error
           date={
             event.date
-              ? // @ts-ignore
+              ? // @ts-expect-error: error
                 dayjs(event?.date?.seconds * 1000).format("dddd, MMMM D, YYYY")
               : "No Deadline"
           }
@@ -118,7 +120,7 @@ const Events = () => {
           title={event.title}
           location={event?.location}
           image={event?.image}
-          //@ts-ignore
+          //@ts-expect-error: error
           deleteEvent={() => deleteEvent(event?.id)}
           onEdit={onEdit}
         />

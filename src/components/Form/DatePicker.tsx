@@ -17,14 +17,9 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { SelectSingleEventHandler } from "react-day-picker";
+import { IDatePicker } from "@/types/interface";
 
-const DatePicker = ({
-  value,
-  setvalue,
-}: {
-  value: Date;
-  setvalue: (value: Date) => void;
-}) => {
+const DatePicker = ({ value, setvalue }: IDatePicker) => {
   const handleDateSelect: SelectSingleEventHandler = (day) => {
     if (day instanceof Date) {
       setvalue(day);

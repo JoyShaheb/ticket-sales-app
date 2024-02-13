@@ -9,18 +9,14 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import { IDeleteEventModalProps } from "@/types/interface";
 
 const DeleteModal = ({
   title,
   icon,
   description,
   onConfirm,
-}: {
-  title: string;
-  icon: React.ReactNode;
-  description: string;
-  onConfirm: (id: string) => Promise<string | null>;
-}) => {
+}: IDeleteEventModalProps) => {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>{icon}</AlertDialogTrigger>
@@ -31,7 +27,7 @@ const DeleteModal = ({
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
-          {/* @ts-ignore */}
+          {/* @ts-expect-error: error */}
           <AlertDialogAction onClick={onConfirm}>Continue</AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
