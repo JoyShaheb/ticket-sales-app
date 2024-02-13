@@ -35,7 +35,7 @@ const EventCard = ({
       <CardHeader className="flex justify-between">
         <CardTitle>{title}</CardTitle>
         <EventDropdown
-          deleteEvent={() => deleteEvent()}
+          deleteEvent={deleteEvent}
           eventData={eventData}
           onEdit={onEdit}
         />
@@ -45,7 +45,6 @@ const EventCard = ({
         <CardDescription>{description}</CardDescription>
         <div className="flex justify-between">
           <CardDescription>
-            {" "}
             {date ? dayjs(date).format("dddd, MMMM D, YYYY") : "No Deadline"}
           </CardDescription>
           <CardDescription>{location}</CardDescription>

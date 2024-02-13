@@ -8,7 +8,7 @@ const EventForm = ({
   date,
   description,
   location,
-  image,
+  // image,
   handleInput, // Update the prop type
   onDateChange,
 }: IEventsForm) => {
@@ -51,15 +51,15 @@ const EventForm = ({
         value={location}
         required
       />
-      <InputFieldWithLabel
+      {/* <InputFieldWithLabel
         label="image"
         placeholder="Event image"
         type="file"
         onChange={handleInput}
         name="image"
         value={image}
-        required
-      />
+        // required
+      /> */}
     </div>
   );
 };

@@ -19,7 +19,7 @@ const EditEventDialog: React.FC<IEditEventDialogProps> = ({
   onEdit,
 }) => {
   const [localdata, setLocalData] = useState(eventData);
-
+  console.log(localdata);
   const handleInput = (_: React.ChangeEvent<HTMLInputElement>) =>
     setLocalData({
       ...localdata,
@@ -28,6 +28,10 @@ const EditEventDialog: React.FC<IEditEventDialogProps> = ({
 
   const onDateChange = (date: Date) => setLocalData({ ...localdata, date });
 
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    onEdit(localdata);
+  };
   return (
     <Dialog>
       <DialogTrigger asChild>{icon}</DialogTrigger>
@@ -38,26 +42,23 @@ const EditEventDialog: React.FC<IEditEventDialogProps> = ({
             Make changes to your Event here. Click save when you're done.
           </DialogDescription>
         </DialogHeader>
-        <div className="grid gap-4 py-4">
-          <EventForm
-            {...localdata}
-            // @ts-expect-error: error
-            date={
-              // @ts-expect-error: error
-              localdata.date?.seconds
-                ? // @ts-expect-error: error
-                  localdata.date.seconds * 1000
-                : undefined
-            }
-            handleInput={handleInput}
-            onDateChange={onDateChange}
-          />
-        </div>
-        <DialogFooter>
-          <Button onClick={() => onEdit(localdata)} type="submit">
-            Save changes
-          </Button>
-        </DialogFooter>
+        <form onSubmit={handleSubmit}>
+          <div className="grid gap-4 py-4">
+            <EventForm
+              // {...localdata}
+              description={localdata.description}
+              location={localdata.location}
+              title={localdata.title}
+              // image={localdata.image}
+              date={localdata.date}
+              handleInput={handleInput}
+              onDateChange={onDateChange}
+            />
+          </div>
+          <DialogFooter>
+            <Button type="submit">Save changes</Button>
+          </DialogFooter>
+        </form>
       </DialogContent>
     </Dialog>
   );

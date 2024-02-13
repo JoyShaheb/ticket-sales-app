@@ -51,7 +51,7 @@ export interface IEditEventDialogProps {
 
 export interface iExtendedEventType extends NewEventType {
   id: string;
-  deleteEvent: () => Promise<string>;
+  deleteEvent: (id: string) => Promise<void>;
   onEdit: (eventData: IEventsProps) => Promise<void>;
 }
 
@@ -66,7 +66,7 @@ export interface IEventDataToUpdate {
 }
 
 export interface IExtendedEventType {
-  deleteEvent: () => Promise<string>;
+  deleteEvent: (id: string) => Promise<void>;
   eventData: IEventsProps;
   onEdit: (eventData: IEventDataToUpdate) => Promise<void>;
 }
@@ -81,7 +81,7 @@ export interface IEventsForm {
   date: Date;
   description: string;
   location: string;
-  image: string;
+  image?: string;
   handleInput: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onDateChange: (date: Date) => void;
 }
@@ -100,5 +100,5 @@ export interface IDeleteEventModalProps {
   title: string;
   icon: React.ReactNode;
   description: string;
-  onConfirm: (id: string) => Promise<string | null>;
+  onConfirm: (id: string) => Promise<void>;
 }

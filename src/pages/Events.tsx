@@ -10,7 +10,6 @@ import {
 } from "@/store";
 import { IEventsProps } from "@/types/interface";
 import { NewEventType } from "@/types/types";
-import dayjs from "dayjs";
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { toast } from "sonner";
@@ -43,12 +42,13 @@ const Events = () => {
   const [deleteOneEvent] = useDeleteOneEventMutation();
   const [createOneEvent] = useCreateOneEventMutation();
 
-  const deleteEvent = async (id: string) =>
+  const deleteEvent = async (id: string): Promise<void> => {
     toast.promise(deleteOneEvent({ id }).unwrap(), {
       loading: "Deleting Event...",
       success: "Event deleted successfully",
       error: "Error deleting Event",
     });
+  };
 
   const onSubmit: () => Promise<void> = async () => {
     try {
@@ -68,16 +68,12 @@ const Events = () => {
   };
 
   const onEdit = async (data: IEventsProps) => {
-    toast.promise(
-      editOneEvent(data)
-        .unwrap()
-        .then(() => setNewEvent(initialState)),
-      {
-        loading: "Updating Event...",
-        success: "Event updated successfully",
-        error: "Error updating Event",
-      }
-    );
+    // .then(() => setNewEvent(initialState))
+    toast.promise(editOneEvent(data).unwrap(), {
+      loading: "Updating Event...",
+      success: "Event updated successfully",
+      error: "Error updating Event",
+    });
   };
 
   if (isLoading || isFetching) {
@@ -109,19 +105,8 @@ const Events = () => {
         <EventCard
           key={event.id}
           userOwner={event.userOwner}
-          // @ts-expect-error: error
-          date={
-            event.date
-              ? // @ts-expect-error: error
-                dayjs(event?.date?.seconds * 1000).format("dddd, MMMM D, YYYY")
-              : "No Deadline"
-          }
-          description={event.description}
-          title={event.title}
-          location={event?.location}
-          image={event?.image}
-          //@ts-expect-error: error
-          deleteEvent={() => deleteEvent(event?.id)}
+          {...event}
+          deleteEvent={() => deleteEvent(event.id)}
           onEdit={onEdit}
         />
       ))}
