@@ -26,7 +26,10 @@ const EditEventDialog: React.FC<IEditEventDialogProps> = ({
       [_.target.name]: _.target.value,
     });
 
-  const onDateChange = (date: Date) => setLocalData({ ...localdata, date });
+  const onDateChange = (date: Date) => {
+    const newDate = date instanceof Date ? date : new Date(date);
+    setLocalData({ ...localdata, date: newDate });
+  };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

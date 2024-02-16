@@ -30,6 +30,11 @@ const EventCard = ({
     image,
     userOwner,
   };
+
+  const formattedDate = date
+    ? dayjs(new Date(date)).format("dddd, MMMM D, YYYY")
+    : "No Deadline";
+
   return (
     <Card className="w-[350px]">
       <CardHeader className="flex justify-between">
@@ -44,9 +49,7 @@ const EventCard = ({
         <CardDescription>{image}</CardDescription>
         <CardDescription>{description}</CardDescription>
         <div className="flex justify-between">
-          <CardDescription>
-            {date ? dayjs(date).format("dddd, MMMM D, YYYY") : "No Deadline"}
-          </CardDescription>
+          <CardDescription>{formattedDate}</CardDescription>
           <CardDescription>{location}</CardDescription>
         </div>
       </CardContent>

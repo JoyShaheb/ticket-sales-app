@@ -1,6 +1,5 @@
-import { addDays, format } from "date-fns";
+import dayjs from "dayjs";
 import { Calendar as CalendarIcon } from "lucide-react";
-
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
@@ -37,13 +36,17 @@ const DatePicker = ({ value, setvalue }: IDatePicker) => {
           )}
         >
           <CalendarIcon className="mr-2 h-4 w-4" />
-          {value ? format(value, "PPP") : <span>Pick a date</span>}
+          {value ? (
+            dayjs(value).format("dddd, MMMM D, YYYY")
+          ) : (
+            <span>Pick a date</span>
+          )}
         </Button>
       </PopoverTrigger>
       <PopoverContent className="flex w-auto flex-col space-y-2 p-2">
         <Select
           onValueChange={(value) =>
-            setvalue(addDays(new Date(), parseInt(value)))
+            setvalue(dayjs().add(parseInt(value), "day").toDate())
           }
         >
           <SelectTrigger>
