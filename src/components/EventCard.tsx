@@ -3,7 +3,6 @@ import {
   CardContent,
   CardDescription,
   CardFooter,
-  CardHeader,
   CardTitle,
 } from "@/components/ui/card";
 import EventDropdown from "./EventDropdown";
@@ -31,36 +30,32 @@ const EventCard = ({
     userOwner,
   };
 
-  const formattedDate = date
-    ? dayjs(new Date(date)).format("dddd, MMMM D, YYYY")
-    : "No Deadline";
-
   return (
     <Card className="w-[350px]">
-      <CardHeader className="flex justify-between">
+      <CardFooter className="flex justify-between">
         <CardTitle>{title}</CardTitle>
         <EventDropdown
           deleteEvent={deleteEvent}
           eventData={eventData}
           onEdit={onEdit}
         />
-      </CardHeader>
+      </CardFooter>
       <CardContent>
         <CardDescription>{image}</CardDescription>
         <CardDescription>{description}</CardDescription>
         <div className="flex justify-between">
-          <CardDescription>{formattedDate}</CardDescription>
+          <CardDescription>
+            {" "}
+            {eventData?.date
+              ? //@ts-expect-error: error
+                dayjs(eventData?.date?.seconds * 1000).format(
+                  "dddd, MMMM D, YYYY"
+                )
+              : "No Deadline"}
+          </CardDescription>
           <CardDescription>{location}</CardDescription>
         </div>
       </CardContent>
-      <CardFooter className="flex justify-between">
-        {/* <Button onClick={onEdit} variant="outline">
-          Edit
-        </Button>
-        <Button onClick={deleteEvent} variant="outline">
-          Delete
-        </Button> */}
-      </CardFooter>
     </Card>
   );
 };

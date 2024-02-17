@@ -19,7 +19,6 @@ const EditEventDialog: React.FC<IEditEventDialogProps> = ({
   onEdit,
 }) => {
   const [localdata, setLocalData] = useState(eventData);
-  console.log(localdata);
   const handleInput = (_: React.ChangeEvent<HTMLInputElement>) =>
     setLocalData({
       ...localdata,
@@ -48,12 +47,12 @@ const EditEventDialog: React.FC<IEditEventDialogProps> = ({
         <form onSubmit={handleSubmit}>
           <div className="grid gap-4 py-4">
             <EventForm
-              // {...localdata}
               description={localdata.description}
               location={localdata.location}
               title={localdata.title}
               // image={localdata.image}
-              date={localdata.date}
+              //@ts-expect-error: error
+              date={localdata.date?.seconds * 1000}
               handleInput={handleInput}
               onDateChange={onDateChange}
             />
