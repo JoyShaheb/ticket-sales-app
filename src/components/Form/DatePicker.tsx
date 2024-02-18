@@ -30,7 +30,7 @@ const DatePicker = ({ value, setvalue }: IDatePicker) => {
         >
           <CalendarIcon className="mr-2 h-4 w-4" />
           {value ? (
-            dayjs(value).format("dddd, MMMM D, YYYY")
+            dayjs(value).format("MMMM D, YYYY")
           ) : (
             <span>Pick a date</span>
           )}

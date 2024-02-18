@@ -55,7 +55,7 @@ const App = () => {
         <Routes>
           {/* General Pages */}
           <Route path="/" element={<Events />} />
-          <Route path="/event-details-page" element={<EventDetailsPage />} />
+          <Route path="/events/:id" element={<EventDetailsPage />} />
           {/* this route is used to process email verification request */}
           <Route
             path="/verify-email-request"

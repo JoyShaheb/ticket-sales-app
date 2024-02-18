@@ -22,6 +22,7 @@ import {
 
 import {
   useGetAllEventsQuery,
+  useGetOneEventQuery,
   useCreateOneEventMutation,
   useDeleteOneEventMutation,
   useEditOneEventMutation,
@@ -79,6 +80,7 @@ export {
 
   // events
   useGetAllEventsQuery,
+  useGetOneEventQuery,
   useCreateOneEventMutation,
   useDeleteOneEventMutation,
   useEditOneEventMutation,

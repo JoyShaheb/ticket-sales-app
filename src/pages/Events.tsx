@@ -104,7 +104,6 @@ const Events = () => {
       {data?.map((event: IEventsProps) => (
         <EventCard
           key={event.id}
-          userOwner={event.userOwner}
           {...event}
           deleteEvent={() => deleteEvent(event.id)}
           onEdit={onEdit}
