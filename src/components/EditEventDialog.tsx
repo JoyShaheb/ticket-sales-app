@@ -10,7 +10,6 @@ import {
 } from "@/components/ui/dialog";
 import { useState } from "react";
 import EventForm from "./Form/EventForm";
-// import InputFieldWithLabel from "./Form/InputFieldWithLabel";
 import { IEditEventDialogProps } from "@/types/interface";
 
 const EditEventDialog: React.FC<IEditEventDialogProps> = ({
@@ -26,8 +25,13 @@ const EditEventDialog: React.FC<IEditEventDialogProps> = ({
     });
 
   const onDateChange = (date: Date) => {
-    const newDate = date instanceof Date ? date : new Date(date);
-    setLocalData({ ...localdata, date: newDate });
+    const parsedDate = new Date(date);
+    const databaseFormat = {
+      nanoseconds: parsedDate.getMilliseconds() * 1e6,
+      seconds: Math.floor(parsedDate.getTime() / 1000),
+    };
+
+    setLocalData({ ...localdata, date: databaseFormat as unknown as Date });
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
