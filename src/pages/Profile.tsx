@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import EditProfileDialog from "@/components/EditProfileDialog";
+import ProfileSkeleton from "@/components/Skeleton/ProfileSkeleton";
 
 const Profile = () => {
   const dispatch = useDispatch();
@@ -68,7 +69,7 @@ const Profile = () => {
   };
 
   if (isFetching || isLoading) {
-    return <div className="">Loading, please wait....</div>;
+    return <ProfileSkeleton />;
   }
 
   if (isError) {

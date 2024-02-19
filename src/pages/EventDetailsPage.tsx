@@ -2,6 +2,7 @@ import { useParams } from "react-router-dom";
 import { useGetOneEventQuery, RootState } from "@/store";
 import { useSelector } from "react-redux";
 import EventDetailsCard from "@/components/EventDetailsCard";
+import EventSkeleton from "@/components/Skeleton/EventSkeleton";
 
 const EventDetailsPage = () => {
   const userID = useSelector((state: RootState) => state.user.uid);
@@ -22,7 +23,7 @@ const EventDetailsPage = () => {
   });
 
   if (isLoading) {
-    return <div className="">Loading event details...</div>;
+    return <EventSkeleton />;
   }
 
   if (isError) {
