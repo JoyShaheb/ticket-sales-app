@@ -10,6 +10,10 @@ import { IEventDataToUpdate, iExtendedEventType } from "@/types/interface";
 import { useNavigate } from "react-router-dom";
 import dayjs from "dayjs";
 import { Button } from "./ui/button";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState, removeEvent, saveEvent } from "@/store";
+import { FaBookmark } from "react-icons/fa";
+import { FiBookmark } from "react-icons/fi";
 
 const EventCard = ({
   date,
@@ -33,6 +37,18 @@ const EventCard = ({
   };
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const bookmarks = useSelector(
+    (state: RootState) => state.bookmarks.savedEvents
+  );
+
+  const handleSave = () => {
+    if (bookmarks.includes(id)) {
+      dispatch(removeEvent(id));
+    } else {
+      dispatch(saveEvent(id));
+    }
+  };
 
   const handleGetTicketClick = () => {
     navigate(`/events/${id}`);
@@ -61,9 +77,16 @@ const EventCard = ({
           <CardDescription>{location}</CardDescription>
         </div>
       </CardContent>
-      <Button variant={"ghost"} onClick={handleGetTicketClick}>
-        Get Ticket
-      </Button>
+      <CardFooter className="flex justify-between">
+        <Button variant={"ghost"} onClick={handleGetTicketClick}>
+          Get Ticket
+        </Button>
+        {bookmarks.includes(id) ? (
+          <FaBookmark onClick={handleSave} />
+        ) : (
+          <FiBookmark onClick={handleSave} />
+        )}
+      </CardFooter>
     </Card>
   );
 };

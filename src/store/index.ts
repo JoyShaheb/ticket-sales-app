@@ -8,6 +8,12 @@ import {
   changeEmailVeificationStatus,
 } from "./Slices/userSlice.ts";
 import {
+  BookMarkSlice,
+removeEvent,
+resetBookMark,
+saveEvent
+} from "./Slices/BookMarkSlice";
+import {
   UserAuthAPI,
   useEmailSignupMutation,
   useEmailLoginMutation,
@@ -43,10 +49,17 @@ const persistedUserReducer = persistReducer(
   persistConfig,
   userDataSlice.reducer
 );
+
+const persistedBookMarksReducer = persistReducer(
+  persistConfig,
+  BookMarkSlice.reducer,
+);
+
 export const store = configureStore({
   reducer: {
     system: persistedSystemReducer,
     user: persistedUserReducer,
+    bookmarks: persistedBookMarksReducer,
     [UserAuthAPI.reducerPath]: UserAuthAPI.reducer,
     [eventsAPI.reducerPath]: eventsAPI.reducer,
   },
@@ -77,6 +90,12 @@ export {
   loginSuccess,
   logoutSuccess,
   changeEmailVeificationStatus,
+
+  //bookmark slice
+  BookMarkSlice,
+  removeEvent,
+  resetBookMark,
+  saveEvent,
 
   // events
   useGetAllEventsQuery,
