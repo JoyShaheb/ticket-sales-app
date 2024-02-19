@@ -36,31 +36,50 @@ const EventDetailsCard = ({
     navigate(`/events/${id}`);
   };
   return (
-    <Card className="w-[350px]">
-      <CardFooter className="flex justify-between">
-        <CardTitle>{title}</CardTitle>
-        <CardDescription>
-          {" "}
-          {eventData?.date
-            ? //@ts-expect-error: error
-              dayjs(eventData?.date?.seconds * 1000).format("MMMM D, YYYY")
-            : "No Deadline"}
-        </CardDescription>
-        <CardDescription>{location}</CardDescription>
-      </CardFooter>
-      <CardContent>
-        <CardDescription>IMAGE{image}</CardDescription>
-        <CardDescription>{description}</CardDescription>
-      </CardContent>
+    <div className="flex flex-col items-center justify-center min-h-[95vh] space-y-3">
+      <Card className="w-[750px] h-[500px]">
+        <CardFooter className="flex justify-between mt-5">
+          <CardTitle>{title}</CardTitle>
+          <div className="flex space-x-4">
+            <CardDescription>
+              {eventData?.date
+                ? //@ts-expect-error: error
+                  dayjs(eventData?.date?.seconds * 1000).format("MMMM D, YYYY")
+                : "No Deadline"}
+            </CardDescription>
+            <CardDescription>{location}</CardDescription>
+          </div>
+        </CardFooter>
+        <CardContent>
+          <div className="flex justify-between mt-5">
+            {/* Left Column - Image */}
+            <div className="flex-shrink-0 mr-4 w-[300px]">
+              <CardDescription>
+                <img
+                  className="h-[200px] w-[300px] "
+                  src={eventData?.image ? eventData?.image : "public/event.jpg"}
+                />
+              </CardDescription>
+            </div>
 
-      <CardDescription>$ Price</CardDescription>
-      <CardFooter className="flex justify-between">
-        <Input type="number" placeholder="0" />
-        <Button variant={"ghost"} onClick={handleGetTicketClick}>
-          Add to Cart
-        </Button>
-      </CardFooter>
-    </Card>
+            {/* Right Column - Description */}
+            <div className="flex-grow">
+              <CardDescription>{description}</CardDescription>
+            </div>
+          </div>
+        </CardContent>
+
+        <div className="mt-7">
+          <CardDescription className="ml-5 mb-3">$ Price</CardDescription>
+          <CardFooter className="flex justify-between w-[200px]">
+            <Input className="w-[70px]" type="number" placeholder="0" />
+            <Button variant={"ghost"} onClick={handleGetTicketClick}>
+              Add to Cart
+            </Button>
+          </CardFooter>
+        </div>
+      </Card>
+    </div>
   );
 };
 
