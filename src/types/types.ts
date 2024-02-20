@@ -15,10 +15,10 @@ export type GoogleAuthType = () => Promise<string | number>;
 
 export type NewEventType = Pick<
   IEventsProps,
-  "date" | "description" | "title" | "userOwner"
+  "date" | "description" | "title" | "userOwner" | "location" | "image"
 >;
 
 export type UpdateEventType = Pick<
   IEventsProps,
-  "date" | "description" | "title" | "id"
+  "date" | "description" | "title" | "id" | "location" | "image"
 >;

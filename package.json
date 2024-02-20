@@ -10,7 +10,7 @@
     "preview": "vite preview",
     "format": "prettier --write .",
     "prepare": "husky install",
-    "lint-and-format": "npm run format && npm run lint"
+    "lint-and-format": "npm run lint && npm run format"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
@@ -20,13 +20,19 @@
   },
   "pre-commit": "lint-staged",
   "dependencies": {
+    "@radix-ui/react-alert-dialog": "^1.0.5",
     "@radix-ui/react-dialog": "^1.0.5",
+    "@radix-ui/react-dropdown-menu": "^2.0.6",
     "@radix-ui/react-label": "^2.0.2",
+    "@radix-ui/react-popover": "^1.0.7",
+    "@radix-ui/react-select": "^2.0.0",
     "@radix-ui/react-slot": "^1.0.2",
     "@radix-ui/react-switch": "^1.0.3",
     "@reduxjs/toolkit": "^2.0.1",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
+    "date-fns": "^3.3.1",
+    "dayjs": "^1.11.10",
     "firebase": "^10.7.2",
     "firebase-config": "^1.0.0",
     "lint-staged": "^15.2.0",
@@ -35,6 +41,7 @@
     "pre-commit": "^1.2.2",
     "prettier": "^3.2.4",
     "react": "^18.2.0",
+    "react-day-picker": "^8.10.0",
     "react-dom": "^18.2.0",
     "react-icons": "^5.0.1",
     "react-redux": "^9.1.0",

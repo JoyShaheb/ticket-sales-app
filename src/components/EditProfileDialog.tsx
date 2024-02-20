@@ -10,22 +10,10 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { ChangeEvent, MouseEventHandler } from "react";
 // import InputFieldWithLabel from "./Form/InputFieldWithLabel";
+import { IEditProfileDialogProps } from "@/types/interface";
 
-interface EditProfileDialogProps {
-  // eslint-disable-next-line no-unused-vars
-  handleInputChange: (e: ChangeEvent<HTMLInputElement>) => void; // Change type to ChangeEvent
-  handleSubmit: MouseEventHandler<HTMLButtonElement>;
-  displayName: string;
-  fullName: string;
-  email: string;
-  photoURL: string;
-  phoneNumber: string;
-  address: string;
-}
-
-const EditProfileDialog: React.FC<EditProfileDialogProps> = ({
+const EditProfileDialog: React.FC<IEditProfileDialogProps> = ({
   handleInputChange,
   handleSubmit,
   displayName,

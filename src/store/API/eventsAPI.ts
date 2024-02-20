@@ -78,12 +78,21 @@ export const eventsAPI = createApi({
     }),
 
     createOneEvent: builder.mutation<string, NewEventType>({
-      queryFn: async ({ date, description, title, userOwner }) => {
+      queryFn: async ({
+        date,
+        description,
+        title,
+        userOwner,
+        image,
+        location,
+      }) => {
         await addDoc(collection(db, eventsCollectionName), {
           date,
           description,
           title,
           userOwner,
+          image,
+          location,
         });
         try {
           return {
@@ -98,13 +107,14 @@ export const eventsAPI = createApi({
       invalidatesTags: ["Events"],
     }),
     editOneEvent: builder.mutation<string, UpdateEventType>({
-      queryFn: async ({ date, description, title, id }) => {
+      queryFn: async ({ date, description, title, id, image, location }) => {
         try {
           const docRef = doc(db, eventsCollectionName, id);
           await updateDoc(docRef, {
             date,
             description,
-
+            image,
+            location,
             title,
           });
 
