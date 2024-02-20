@@ -6,7 +6,11 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import EventDropdown from "./EventDropdown";
-import { IEventDataToUpdate, iExtendedEventType } from "@/types/interface";
+import {
+  IEventsProps,
+  ISecondsDate,
+  iExtendedEventType,
+} from "@/types/interface";
 import dayjs from "dayjs";
 import { useState } from "react";
 
@@ -21,7 +25,7 @@ const EventCard = ({
   onEdit,
   userOwner,
 }: iExtendedEventType) => {
-  const [data, setData] = useState<IEventDataToUpdate>({
+  const [data, setData] = useState<IEventsProps>({
     id,
     date,
     description,
@@ -37,18 +41,16 @@ const EventCard = ({
       [e.target.name]: e.target.value,
     });
 
-  const onDateChange = (date: Date) => {
-    const parsedDate = new Date(date);
+  const onDateChange = (date: Date | number | ISecondsDate) => {
+    const parsedDate = new Date(date as Date);
     // Convert the parsed date to the format expected by your database
     const databaseFormat = {
       nanoseconds: parsedDate.getMilliseconds() * 1e6, // Convert milliseconds to nanoseconds
       seconds: Math.floor(parsedDate.getTime() / 1000), // Convert milliseconds to seconds
     };
 
-    setData({ ...data, date: databaseFormat as unknown as Date });
+    setData({ ...data, date: databaseFormat });
   };
-
-  console.log("card date", data);
 
   return (
     <Card className="w-[350px]">
@@ -68,8 +70,9 @@ const EventCard = ({
         <div className="flex justify-between">
           <CardDescription>
             {data?.date
-              ? //@ts-expect-error: error
-                dayjs(data?.date?.seconds * 1000).format("dddd, MMMM D, YYYY")
+              ? dayjs((data?.date as ISecondsDate)?.seconds * 1000).format(
+                  "dddd, MMMM D, YYYY"
+                )
               : "No Deadline"}
           </CardDescription>
           <CardDescription>{location}</CardDescription>

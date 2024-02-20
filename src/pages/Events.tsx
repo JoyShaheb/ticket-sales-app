@@ -9,7 +9,7 @@ import {
   useEditOneEventMutation,
   RootState,
 } from "@/store";
-import { IEventsProps } from "@/types/interface";
+import { IEventsProps, ISecondsDate } from "@/types/interface";
 import { NewEventType } from "@/types/types";
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
@@ -33,7 +33,8 @@ const Events = () => {
       [e.target.name]: e.target.value,
     });
 
-  const onDateChange = (date: Date) => setNewEvent({ ...newEvent, date });
+  const onDateChange = (date: Date | number | ISecondsDate) =>
+    setNewEvent({ ...newEvent, date });
 
   const { data, isError, isFetching, isLoading } = useGetAllEventsQuery({
     userID,

@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { addDays, format } from "date-fns";
 import { Calendar as CalendarIcon } from "lucide-react";
 
@@ -24,6 +23,7 @@ const DatePicker = ({
   setvalue,
 }: {
   value: Date;
+  /* eslint-disable-next-line no-unused-vars */
   setvalue: (value: Date) => void;
 }) => {
   const handleDateSelect: SelectSingleEventHandler = (day) => {

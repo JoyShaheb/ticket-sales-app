@@ -11,7 +11,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { FC } from "react";
-import { IExtendedEventType } from "@/types/interface";
+import { IExtendedEventType, ISecondsDate } from "@/types/interface";
 import DeleteModal from "./Modal/DeleteModal";
 import EventModal from "./Modal/EventModal";
 import EventForm from "./Form/EventForm";
@@ -65,8 +65,7 @@ const EventDropdown: FC<IExtendedEventType> = ({
               >
                 <EventForm
                   {...eventData}
-                  // @eslint-ignore-next-line
-                  date={eventData.date?.seconds * 1000}
+                  date={(eventData.date as ISecondsDate)?.seconds * 1000}
                   handleInput={handleInput}
                   onDateChange={onDateChange}
                 />
