@@ -157,7 +157,12 @@
 // export default EventCreation;
 
 const EventCreation = () => {
-  return <div>EventCreation</div>;
+  return (
+    <div>
+      EventCreation
+      <h1>Create event</h1>
+    </div>
+  );
 };
 
 export default EventCreation;

@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
+import { UserAuthAPI } from "../API/userAuthAPI";
 
 export interface UserState {
   uid: string;
@@ -38,6 +39,12 @@ export const userDataSlice = createSlice({
       };
     },
     logoutSuccess: () => initialState,
+  },
+  extraReducers: (builder) => {
+    builder.addMatcher(
+      UserAuthAPI.endpoints.logout.matchFulfilled,
+      () => initialState
+    );
   },
 });
 
