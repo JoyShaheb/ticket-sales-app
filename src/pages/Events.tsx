@@ -1,6 +1,7 @@
 import EventCard from "@/components/EventCard";
 import EventForm from "@/components/Form/EventForm";
 import EventModal from "@/components/Modal/EventModal";
+import { Button } from "@/components/ui/button";
 import {
   useGetAllEventsQuery,
   useCreateOneEventMutation,
@@ -88,7 +89,11 @@ const Events = () => {
       <div className="flex justify-center">
         <EventModal
           onConfirm={onSubmit}
-          buttonText="Add Event"
+          button={
+            <Button variant="default" size="sm">
+              Create New Event
+            </Button>
+          }
           dialogueDescription="Create your Event here. Click Create when you're done."
           dialogueTitle="Create New Event"
           confirmButtonText="Create"

@@ -11,14 +11,17 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { FC } from "react";
-import EditEventDialog from "./EditEventDialog";
 import { IExtendedEventType } from "@/types/interface";
 import DeleteModal from "./Modal/DeleteModal";
+import EventModal from "./Modal/EventModal";
+import EventForm from "./Form/EventForm";
 
 const EventDropdown: FC<IExtendedEventType> = ({
   deleteEvent,
   eventData,
   onEdit,
+  handleInput,
+  onDateChange,
 }) => {
   return (
     <>
@@ -47,17 +50,27 @@ const EventDropdown: FC<IExtendedEventType> = ({
               />
             </DropdownMenuItem>
             <DropdownMenuItem asChild>
-              <EditEventDialog
-                icon={
+              <EventModal
+                dialogueDescription="Update your Event here. Click Update Button when you're done."
+                dialogueTitle="Update Event"
+                confirmButtonText="Update"
+                onConfirm={() => onEdit(eventData)}
+                button={
                   <div className="flex items-center px-2 py-2 cursor-default hover:bg-slate-100 dark:hover:bg-slate-800 rounded-md">
                     <Pencil className="mr-2 h-4 w-4" />
                     <span>Edit Event</span>
                     <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
                   </div>
                 }
-                eventData={eventData}
-                onEdit={onEdit}
-              />
+              >
+                <EventForm
+                  {...eventData}
+                  // @eslint-ignore-next-line
+                  date={eventData.date?.seconds * 1000}
+                  handleInput={handleInput}
+                  onDateChange={onDateChange}
+                />
+              </EventModal>
             </DropdownMenuItem>
           </DropdownMenuGroup>
         </DropdownMenuContent>

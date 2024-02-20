@@ -69,6 +69,8 @@ export interface IExtendedEventType {
   deleteEvent: (id: string) => Promise<void>;
   eventData: IEventsProps;
   onEdit: (eventData: IEventDataToUpdate) => Promise<void>;
+  handleInput: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onDateChange: (date: Date) => void;
 }
 
 export interface IDatePicker {

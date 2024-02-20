@@ -11,7 +11,7 @@ import {
 import { FC } from "react";
 
 interface EventModalProps {
-  buttonText: string;
+  button: React.ReactNode;
   onConfirm: () => Promise<void>;
   children: React.ReactNode;
   dialogueTitle: string;
@@ -22,16 +22,14 @@ interface EventModalProps {
 const EventModal: FC<EventModalProps> = ({
   onConfirm,
   children,
-  buttonText,
+  button,
   dialogueDescription,
   dialogueTitle,
   confirmButtonText,
 }) => {
   return (
     <Dialog>
-      <DialogTrigger asChild>
-        <Button variant="default">{buttonText}</Button>
-      </DialogTrigger>
+      <DialogTrigger asChild>{button}</DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <form
           onSubmit={(e) => {
