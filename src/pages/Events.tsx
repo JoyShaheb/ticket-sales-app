@@ -33,7 +33,7 @@ const Events = () => {
       [e.target.name]: e.target.value,
     });
 
-  const onDateChange = (date: Date | number | ISecondsDate) =>
+  const onDateChange = (date: Date | Number | ISecondsDate) =>
     setNewEvent({ ...newEvent, date });
 
   const { data, isError, isFetching, isLoading } = useGetAllEventsQuery({
