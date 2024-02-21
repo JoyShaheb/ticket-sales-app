@@ -1,14 +1,8 @@
-import {
-  useConfirmEmailVerificationMutation,
-  changeEmailVeificationStatus,
-} from "@/store";
+import { useConfirmEmailVerificationMutation } from "@/store";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
 
 const VerifyEmailRequest = () => {
-  const dispatch = useDispatch();
-
   const navigate = useNavigate();
   const oobCode = new URLSearchParams(window.location.search).get(
     "oobCode"
@@ -24,9 +18,7 @@ const VerifyEmailRequest = () => {
   useEffect(() => {
     confirmEmailVerification({
       oobCode,
-    })
-      .then(() => dispatch(changeEmailVeificationStatus(true)))
-      .then(() => navigate("/"));
+    }).then(() => navigate("/"));
   }, []);
 
   if (isLoading) {

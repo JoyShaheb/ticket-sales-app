@@ -41,7 +41,7 @@ const EventCard = ({
       [e.target.name]: e.target.value,
     });
 
-  const onDateChange = (date: Date | Number | ISecondsDate) => {
+  const onDateChange = (date: Date | number | ISecondsDate) => {
     const parsedDate = new Date(date as Date);
     // Convert the parsed date to the format expected by your database
     const databaseFormat = {

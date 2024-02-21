@@ -1,5 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
-import type { PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, isAnyOf } from "@reduxjs/toolkit";
 import { UserAuthAPI } from "../API/userAuthAPI";
 
 export interface UserState {
@@ -26,18 +25,6 @@ export const userDataSlice = createSlice({
   name: "userData",
   initialState,
   reducers: {
-    loginSuccess: (state, action: PayloadAction<UserState>) => {
-      return {
-        ...state,
-        ...action.payload,
-      };
-    },
-    changeEmailVeificationStatus: (state, action: PayloadAction<boolean>) => {
-      return {
-        ...state,
-        emailVerified: action.payload,
-      };
-    },
     logoutSuccess: () => initialState,
   },
   extraReducers: (builder) => {
@@ -45,8 +32,37 @@ export const userDataSlice = createSlice({
       UserAuthAPI.endpoints.logout.matchFulfilled,
       () => initialState
     );
+    builder.addMatcher(
+      UserAuthAPI.endpoints.confirmEmailVerification.matchFulfilled,
+      (state) => {
+        return {
+          ...state,
+          emailVerified: true,
+        };
+      }
+    );
+    builder.addMatcher(
+      isAnyOf(
+        UserAuthAPI.endpoints.emailLogin.matchFulfilled,
+        UserAuthAPI.endpoints.googleSignup.matchFulfilled,
+        UserAuthAPI.endpoints.emailSignup.matchFulfilled
+      ),
+      (state, action) => {
+        const user = action?.payload?.user;
+        return {
+          ...state,
+          uid: user?.uid as string,
+          email: user?.email as string,
+          emailVerified: user?.emailVerified as boolean,
+          displayName: user?.displayName as string,
+          photoURL: user?.photoURL as string,
+          phoneNumber: user.phoneNumber as string,
+          // ommit this line later when the logic is implemented
+          userRole: "admin",
+        };
+      }
+    );
   },
 });
 
-export const { loginSuccess, logoutSuccess, changeEmailVeificationStatus } =
-  userDataSlice.actions;
+export const { logoutSuccess } = userDataSlice.actions;

@@ -20,7 +20,6 @@ import Sidebar from "./components/SideBar/Sidebar";
 import { useEffect } from "react";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "./config/firebase-config";
-import { loginSuccess } from "./store";
 import { useDispatch } from "react-redux";
 import { logoutSuccess } from "./store/Slices/userSlice.ts";
 import UserRoutes from "./pages/Auth/UserRoutes.tsx";
@@ -32,17 +31,7 @@ const App = () => {
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
-        dispatch(
-          loginSuccess({
-            uid: user.uid,
-            email: user.email as string,
-            displayName: user.displayName as string,
-            photoURL: user.photoURL as string,
-            emailVerified: user.emailVerified,
-            phoneNumber: user.phoneNumber as string,
-            userRole: "admin",
-          })
-        );
+        return;
       } else {
         dispatch(logoutSuccess());
       }
