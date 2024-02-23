@@ -18,9 +18,7 @@ export const BookMarkSlice = createSlice({
       savedEvents: [...state.savedEvents, action.payload],
     }),
     removeEvent: (state: IBookMark, action: PayloadAction<string>) => {
-      const index = state.savedEvents.findIndex(
-        (id) => id === action.payload,
-      );
+      const index = state.savedEvents.findIndex((id) => id === action.payload);
       if (index !== -1) {
         state.savedEvents.splice(index, 1);
       }
@@ -29,5 +27,4 @@ export const BookMarkSlice = createSlice({
   },
 });
 
-export const { resetBookMark, saveEvent, removeEvent } =
-  BookMarkSlice.actions;
+export const { resetBookMark, saveEvent, removeEvent } = BookMarkSlice.actions;

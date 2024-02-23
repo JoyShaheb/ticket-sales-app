@@ -9,9 +9,9 @@ import {
 } from "./Slices/userSlice.ts";
 import {
   BookMarkSlice,
-removeEvent,
-resetBookMark,
-saveEvent
+  removeEvent,
+  resetBookMark,
+  saveEvent,
 } from "./Slices/BookMarkSlice";
 import {
   UserAuthAPI,
@@ -52,7 +52,7 @@ const persistedUserReducer = persistReducer(
 
 const persistedBookMarksReducer = persistReducer(
   persistConfig,
-  BookMarkSlice.reducer,
+  BookMarkSlice.reducer
 );
 
 export const store = configureStore({
