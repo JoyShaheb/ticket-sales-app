@@ -27,7 +27,6 @@ export interface IEventsProps {
   title: string;
   description: string;
   date: Date;
-  userOwner?: string;
   location: string;
   image: string;
 }
@@ -61,7 +60,6 @@ export interface IEventDataToUpdate {
   date: Date;
   location: string;
   image: string;
-  userOwner?: string;
   id: string;
 }
 

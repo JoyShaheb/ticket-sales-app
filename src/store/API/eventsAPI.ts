@@ -22,17 +22,9 @@ export const eventsAPI = createApi({
   baseQuery: fakeBaseQuery(),
   tagTypes: ["Events"],
   endpoints: (builder) => ({
-    getAllEvents: builder.query<
-      IEventsProps[],
-      {
-        userID: string;
-      }
-    >({
-      queryFn: async ({ userID }) => {
-        const requestQuery = query(
-          collection(db, eventsCollectionName),
-          where("userOwner", "==", userID)
-        );
+    getAllEvents: builder.query<IEventsProps[], void>({
+      queryFn: async () => {
+        const requestQuery = query(collection(db, eventsCollectionName));
 
         const getAllevents = await getDocs(requestQuery);
 
@@ -56,8 +48,8 @@ export const eventsAPI = createApi({
       providesTags: ["Events"],
     }),
 
-    getOneEvent: builder.query<IEventsProps, { id: string; userID: string }>({
-      queryFn: async ({ id, userID }) => {
+    getOneEvent: builder.query<IEventsProps, { id: string }>({
+      queryFn: async ({ id }) => {
         const docRef = doc(db, eventsCollectionName, id);
         try {
           const getEvent = await getDoc(docRef);
@@ -65,7 +57,6 @@ export const eventsAPI = createApi({
           if (getEvent.exists()) {
             const eventData = getEvent.data() as IEventsProps;
             // You can use userID in your logic if needed.
-            console.log(`Fetching event with userID: ${userID}`);
             return { data: { ...eventData, id: getEvent.id } };
           } else {
             throw new Error("Event not found");
@@ -101,19 +92,11 @@ export const eventsAPI = createApi({
     }),
 
     createOneEvent: builder.mutation<string, NewEventType>({
-      queryFn: async ({
-        date,
-        description,
-        title,
-        userOwner,
-        image,
-        location,
-      }) => {
+      queryFn: async ({ date, description, title, image, location }) => {
         await addDoc(collection(db, eventsCollectionName), {
           date,
           description,
           title,
-          userOwner,
           image,
           location,
         });

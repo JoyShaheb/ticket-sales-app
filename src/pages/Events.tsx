@@ -6,23 +6,19 @@ import {
   useCreateOneEventMutation,
   useDeleteOneEventMutation,
   useEditOneEventMutation,
-  RootState,
 } from "@/store";
 import { IEventsProps } from "@/types/interface";
 import { NewEventType } from "@/types/types";
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
 import { toast } from "sonner";
 
 const Events = () => {
-  const userID = useSelector((state: RootState) => state.user.uid);
   const initialState: NewEventType = {
     date: new Date(),
     description: "",
     title: "",
     location: "",
     image: "",
-    userOwner: userID,
   };
   const [newEvent, setNewEvent] = useState<NewEventType>(initialState);
 
@@ -34,9 +30,7 @@ const Events = () => {
 
   const onDateChange = (date: Date) => setNewEvent({ ...newEvent, date });
 
-  const { data, isError, isFetching, isLoading } = useGetAllEventsQuery({
-    userID,
-  });
+  const { data, isError, isFetching, isLoading } = useGetAllEventsQuery();
 
   const [editOneEvent] = useEditOneEventMutation();
   const [deleteOneEvent] = useDeleteOneEventMutation();

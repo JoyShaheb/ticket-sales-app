@@ -24,7 +24,6 @@ const EventCard = ({
   image,
   deleteEvent,
   onEdit,
-  userOwner,
 }: iExtendedEventType) => {
   const eventData: IEventDataToUpdate = {
     id,
@@ -33,7 +32,6 @@ const EventCard = ({
     title,
     location,
     image,
-    userOwner,
   };
 
   const navigate = useNavigate();

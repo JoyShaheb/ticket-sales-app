@@ -18,7 +18,6 @@ const EventDetailsCard = ({
   title,
   location,
   image,
-  userOwner,
 }: IEventsProps) => {
   const eventData: IEventsProps = {
     id,
@@ -27,7 +26,6 @@ const EventDetailsCard = ({
     title,
     location,
     image,
-    userOwner,
   };
 
   const navigate = useNavigate();
