@@ -47,7 +47,7 @@ const EventCard = ({
   const userRole = user.userRole;
 
   return (
-    <Card className="w-[350px]">
+    <Card className="">
       <CardFooter className="flex justify-between">
         <CardTitle>{title}</CardTitle>
         {userRole === "admin" && (

@@ -2,12 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import { setupListeners } from "@reduxjs/toolkit/query";
 import { sysmtemSlice, resetSystem, themeSwitch } from "./Slices/systemSlice";
 import { userDataSlice, logoutSuccess } from "./Slices/userSlice.ts";
-import {
-  BookMarkSlice,
-  removeEvent,
-  resetBookMark,
-  saveEvent,
-} from "./Slices/BookMarkSlice";
+import { BookMarkSlice, resetBookMark } from "./Slices/BookMarkSlice";
 import {
   UserAuthAPI,
   useEmailSignupMutation,
@@ -98,9 +93,7 @@ export {
 
   //bookmark slice
   BookMarkSlice,
-  removeEvent,
   resetBookMark,
-  saveEvent,
 
   // events
   useGetAllEventsQuery,

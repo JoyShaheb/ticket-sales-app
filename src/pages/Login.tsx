@@ -20,7 +20,7 @@ import { GoogleAuthType } from "../types/types";
 
 const Login = () => {
   const initialState: IUserSignInData = {
-    email: "kibeyid597@alibrs.com",
+    email: "mitkapanarin@gmail.com",
     password: "111111",
   };
 

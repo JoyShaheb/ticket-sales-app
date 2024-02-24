@@ -83,9 +83,9 @@ const Events = () => {
     return <div className="">Error, please try again</div>;
   }
   return (
-    <div className="flex flex-col gap-5">
+    <>
       {/* Modal */}
-      <div className="flex justify-center">
+      <div className="flex justify-center mb-6">
         {userRole === "admin" && (
           <EventModal
             onConfirm={onSubmit}
@@ -102,16 +102,17 @@ const Events = () => {
           </EventModal>
         )}
       </div>
-
-      {data?.map((event: IEventsProps) => (
-        <EventCard
-          key={event.id}
-          {...event}
-          deleteEvent={() => deleteEvent(event.id)}
-          onEdit={onEdit}
-        />
-      ))}
-    </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-3 justify-center">
+        {data?.map((event: IEventsProps) => (
+          <EventCard
+            key={event.id}
+            {...event}
+            deleteEvent={() => deleteEvent(event.id)}
+            onEdit={onEdit}
+          />
+        ))}
+      </div>
+    </>
   );
 };
 

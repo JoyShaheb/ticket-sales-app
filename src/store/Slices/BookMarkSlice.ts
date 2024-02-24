@@ -1,60 +1,62 @@
 import { createSlice } from "@reduxjs/toolkit";
-import type { PayloadAction } from "@reduxjs/toolkit";
+import { bookmarksAPI } from "../API/BookmarksAPI";
+import { toast } from "sonner";
 
 interface IBookMark {
   // Save bookmarks under userID for the signed-in user
-  [userID: string]: {
-    savedEvents: string[];
-  };
+  bookmarks: string[];
 }
 
-// Load bookmarks from localStorage on initial load
-const loadBookmarksFromStorage = () => {
-  const storedBookmarks = localStorage.getItem("bookmarks");
-  return storedBookmarks ? JSON.parse(storedBookmarks) : {};
+const initialState: IBookMark = {
+  bookmarks: [],
 };
 
 export const BookMarkSlice = createSlice({
   name: "BookMarks",
-  initialState: loadBookmarksFromStorage(),
+  initialState: initialState,
   reducers: {
-    saveEvent: (
-      state: IBookMark,
-      action: PayloadAction<{ userID: string; eventID: string }>
-    ) => {
-      const { userID, eventID } = action.payload;
-      if (!state[userID]) {
-        state[userID] = { savedEvents: [eventID] };
-      } else {
-        state[userID].savedEvents = [...state[userID].savedEvents, eventID];
-      }
+    resetBookMark: () => initialState,
+  },
 
-      // Save bookmarks to localStorage
-      localStorage.setItem("bookmarks", JSON.stringify(state));
-    },
-    removeEvent: (
-      state: IBookMark,
-      action: PayloadAction<{ userID: string; eventID: string }>
-    ) => {
-      const { userID, eventID } = action.payload;
-      if (state[userID]) {
-        const index = state[userID].savedEvents.findIndex(
-          (id) => id === eventID
-        );
-        if (index !== -1) {
-          state[userID].savedEvents.splice(index, 1);
+  extraReducers(builder) {
+    builder.addMatcher(
+      bookmarksAPI.endpoints.getAllBookmarks.matchFulfilled,
+      (state, action) => {
+        return {
+          ...state,
+          bookmarks: action.payload,
+        };
+      }
+    );
+
+    builder
+      .addMatcher(bookmarksAPI.endpoints.addOneBookmark.matchPending, () => {
+        toast.loading("Saving event...");
+      })
+      .addMatcher(bookmarksAPI.endpoints.addOneBookmark.matchFulfilled, () => {
+        toast.success("Event Saved Successfully");
+      })
+      .addMatcher(bookmarksAPI.endpoints.addOneBookmark.matchRejected, () => {
+        toast.error("Unable to save Event. Please try again later.");
+      });
+
+    builder
+      .addMatcher(bookmarksAPI.endpoints.deleteOneBookmark.matchPending, () => {
+        toast.loading("Removing bookmark...");
+      })
+      .addMatcher(
+        bookmarksAPI.endpoints.deleteOneBookmark.matchFulfilled,
+        () => {
+          toast.success("Event Removed Successfully");
         }
-
-        // Save bookmarks to localStorage
-        localStorage.setItem("bookmarks", JSON.stringify(state));
-      }
-    },
-    resetBookMark: (_state: IBookMark) => {
-      // Reset all bookmarks when logging out or similar action
-      localStorage.removeItem("bookmarks");
-      return {};
-    },
+      )
+      .addMatcher(
+        bookmarksAPI.endpoints.deleteOneBookmark.matchRejected,
+        () => {
+          toast.error("Unable to remove Event. Please try again later.");
+        }
+      );
   },
 });
 
-export const { resetBookMark, saveEvent, removeEvent } = BookMarkSlice.actions;
+export const { resetBookMark } = BookMarkSlice.actions;

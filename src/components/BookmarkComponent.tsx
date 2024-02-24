@@ -1,14 +1,11 @@
 import { IBookmarkProps } from "@/types/interface";
 import {
-  RootState,
-  removeEvent,
-  saveEvent,
   useAddOneBookmarkMutation,
   useDeleteOneBookmarkMutation,
 } from "../store";
 import { FaBookmark } from "react-icons/fa";
 import { FiBookmark } from "react-icons/fi";
-import { useDispatch, useSelector } from "react-redux";
+import { useGetAllBookmarksQuery } from "../store";
 
 const BookmarkComponent = ({
   userID,
@@ -16,43 +13,29 @@ const BookmarkComponent = ({
   id,
   isAuthenticated,
 }: IBookmarkProps & { isAuthenticated: boolean }) => {
-  const dispatch = useDispatch();
   const [addBookmark] = useAddOneBookmarkMutation();
   const [deleteBookmark] = useDeleteOneBookmarkMutation();
 
-  const bookmarks = useSelector(
-    (state: RootState) => state.bookmarks[userID]?.savedEvents || []
-  );
+  const { data, isLoading, isFetching } = useGetAllBookmarksQuery({
+    userID,
+  });
 
-  const handleAddBookmark = async () => {
-    try {
-      await addBookmark({
-        userID,
-        eventID,
-        id,
-      });
+  const handleAddBookmark = async () =>
+    await addBookmark({
+      userID,
+      eventID,
+    });
 
-      // Dispatch action to update bookmarks in Redux store
-      dispatch(saveEvent({ userID, eventID }));
-    } catch (error) {
-      console.error("Error adding bookmark:", error);
-    }
-  };
+  const handleDeleteBookmark = async () =>
+    await deleteBookmark({ userID, eventID });
 
-  const handleDeleteBookmark = async () => {
-    try {
-      await deleteBookmark({ id });
-
-      // Dispatch action to update bookmarks in Redux store
-      dispatch(removeEvent({ userID, eventID }));
-    } catch (error) {
-      console.error("Error deleting bookmark:", error);
-    }
-  };
+  if (isLoading || isFetching) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div>
-      {isAuthenticated && bookmarks.includes(id) ? (
+      {isAuthenticated && (data as string[]).includes(eventID) ? (
         <FaBookmark onClick={handleDeleteBookmark} />
       ) : (
         isAuthenticated && <FiBookmark onClick={handleAddBookmark} />
