@@ -40,7 +40,7 @@ const App = () => {
             photoURL: user.photoURL as string,
             emailVerified: user.emailVerified,
             phoneNumber: user.phoneNumber as string,
-            userRole: "admin",
+            userRole: "",
           })
         );
       } else {

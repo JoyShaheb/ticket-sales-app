@@ -51,15 +51,20 @@ const EventCard = ({
   const handleGetTicketClick = () => {
     navigate(`/events/${id}`);
   };
+
+  const userRole = useSelector((state: RootState) => state.user.userRole);
+
   return (
     <Card className="w-[350px]">
       <CardFooter className="flex justify-between">
         <CardTitle>{title}</CardTitle>
-        <EventDropdown
-          deleteEvent={deleteEvent}
-          eventData={eventData}
-          onEdit={onEdit}
-        />
+        {userRole === "admin" && (
+          <EventDropdown
+            deleteEvent={deleteEvent}
+            eventData={eventData}
+            onEdit={onEdit}
+          />
+        )}
       </CardFooter>
       <CardContent>
         <CardDescription>{image}</CardDescription>

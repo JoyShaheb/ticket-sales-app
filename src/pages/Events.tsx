@@ -6,10 +6,12 @@ import {
   useCreateOneEventMutation,
   useDeleteOneEventMutation,
   useEditOneEventMutation,
+  RootState,
 } from "@/store";
 import { IEventsProps } from "@/types/interface";
 import { NewEventType } from "@/types/types";
 import React, { useState } from "react";
+import { useSelector } from "react-redux";
 import { toast } from "sonner";
 
 const Events = () => {
@@ -20,6 +22,10 @@ const Events = () => {
     location: "",
     image: "",
   };
+
+  const userRole = useSelector((state: RootState) => state.user.userRole);
+  console.log("role", userRole);
+
   const [newEvent, setNewEvent] = useState<NewEventType>(initialState);
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) =>
@@ -80,19 +86,21 @@ const Events = () => {
     <div className="flex flex-col gap-5">
       {/* Modal */}
       <div className="flex justify-center">
-        <EventModal
-          onConfirm={onSubmit}
-          buttonText="Add Event"
-          dialogueDescription="Create your Event here. Click Create when you're done."
-          dialogueTitle="Create New Event"
-          confirmButtonText="Create"
-        >
-          <EventForm
-            {...newEvent}
-            handleInput={handleInput}
-            onDateChange={onDateChange}
-          />
-        </EventModal>
+        {userRole === "admin" && (
+          <EventModal
+            onConfirm={onSubmit}
+            buttonText="Add Event"
+            dialogueDescription="Create your Event here. Click Create when you're done."
+            dialogueTitle="Create New Event"
+            confirmButtonText="Create"
+          >
+            <EventForm
+              {...newEvent}
+              handleInput={handleInput}
+              onDateChange={onDateChange}
+            />
+          </EventModal>
+        )}
       </div>
 
       {data?.map((event: IEventsProps) => (
