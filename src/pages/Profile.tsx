@@ -95,9 +95,7 @@ const Profile = () => {
           width: "120px",
           height: "120px",
         }}
-        src={
-          data?.photoURL ? data?.photoURL : "public/blank-profile-picture.png"
-        }
+        src={data?.photoURL ? data?.photoURL : "blank-profile-picture.png"}
         alt=""
       />
       <br />

@@ -12,8 +12,9 @@ import dayjs from "dayjs";
 import { Button } from "./ui/button";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState, removeEvent, saveEvent } from "@/store";
-import { FaBookmark } from "react-icons/fa";
-import { FiBookmark } from "react-icons/fi";
+// import { FaBookmark } from "react-icons/fa";
+// import { FiBookmark } from "react-icons/fi";
+import BookmarkComponent from "./BookmarkComponent";
 
 const EventCard = ({
   date,
@@ -36,23 +37,32 @@ const EventCard = ({
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const user = useSelector((state: RootState) => state.user);
+  const isAuthenticated = !!user.uid;
+
+  const userID = user.uid;
   const bookmarks = useSelector(
-    (state: RootState) => state.bookmarks.savedEvents
+    (state: RootState) => state.bookmarks[userID]?.savedEvents || []
   );
 
-  const handleSave = () => {
-    if (bookmarks.includes(id)) {
-      dispatch(removeEvent(id));
-    } else {
-      dispatch(saveEvent(id));
-    }
-  };
+  // const handleSave = () => {
+  //   if (isAuthenticated) {
+  //     if (bookmarks.includes(id)) {
+  //       dispatch(removeEvent({ userID, eventID: id }));
+  //     } else {
+  //       dispatch(saveEvent({ userID, eventID: id }));
+  //     }
+  //   } else {
+  //     navigate("/login");
+  //   }
+  // };
 
   const handleGetTicketClick = () => {
     navigate(`/events/${id}`);
   };
 
-  const userRole = useSelector((state: RootState) => state.user.userRole);
+  const userRole = user.userRole;
 
   return (
     <Card className="w-[350px]">
@@ -71,7 +81,6 @@ const EventCard = ({
         <CardDescription>{description}</CardDescription>
         <div className="flex justify-between">
           <CardDescription>
-            {" "}
             {eventData?.date
               ? //@ts-expect-error: error
                 dayjs(eventData?.date?.seconds * 1000).format("MMMM D, YYYY")
@@ -84,11 +93,14 @@ const EventCard = ({
         <Button variant={"ghost"} onClick={handleGetTicketClick}>
           Get Ticket
         </Button>
-        {bookmarks.includes(id) ? (
-          <FaBookmark onClick={handleSave} />
-        ) : (
-          <FiBookmark onClick={handleSave} />
-        )}
+        {isAuthenticated ? (
+          <BookmarkComponent
+            userID={userID}
+            eventID={id}
+            id={id}
+            isAuthenticated={isAuthenticated}
+          />
+        ) : null}
       </CardFooter>
     </Card>
   );

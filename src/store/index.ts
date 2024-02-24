@@ -30,6 +30,13 @@ import {
   eventsAPI,
 } from "./API/eventsAPI.ts";
 
+import {
+  useGetAllBookmarksQuery,
+  useAddOneBookmarkMutation,
+  useDeleteOneBookmarkMutation,
+  bookmarksAPI,
+} from "./API/BookmarksAPI.ts";
+
 import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 const persistConfig = {
@@ -57,11 +64,16 @@ export const store = configureStore({
     bookmarks: persistedBookMarksReducer,
     [UserAuthAPI.reducerPath]: UserAuthAPI.reducer,
     [eventsAPI.reducerPath]: eventsAPI.reducer,
+    [bookmarksAPI.reducerPath]: bookmarksAPI.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: false,
-    }).concat(UserAuthAPI.middleware, eventsAPI.middleware),
+    }).concat(
+      UserAuthAPI.middleware,
+      eventsAPI.middleware,
+      bookmarksAPI.middleware
+    ),
 });
 
 export const persistedStore = persistStore(store);
@@ -96,4 +108,9 @@ export {
   useCreateOneEventMutation,
   useDeleteOneEventMutation,
   useEditOneEventMutation,
+
+  // bookmarks
+  useGetAllBookmarksQuery,
+  useAddOneBookmarkMutation,
+  useDeleteOneBookmarkMutation,
 };

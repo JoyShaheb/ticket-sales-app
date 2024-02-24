@@ -7,7 +7,6 @@ import {
   deleteDoc,
   doc,
   query,
-  where,
   getDocs,
   updateDoc,
   getDoc,
@@ -56,7 +55,6 @@ export const eventsAPI = createApi({
 
           if (getEvent.exists()) {
             const eventData = getEvent.data() as IEventsProps;
-            // You can use userID in your logic if needed.
             return { data: { ...eventData, id: getEvent.id } };
           } else {
             throw new Error("Event not found");

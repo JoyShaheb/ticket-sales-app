@@ -1,10 +1,8 @@
 import { useParams } from "react-router-dom";
-import { useGetOneEventQuery, RootState } from "@/store";
-import { useSelector } from "react-redux";
+import { useGetOneEventQuery } from "@/store";
 import EventDetailsCard from "@/components/EventDetailsCard";
 
 const EventDetailsPage = () => {
-  const userID = useSelector((state: RootState) => state.user.uid);
   const { id } = useParams<{ id: string }>();
 
   if (!id) {
@@ -18,7 +16,6 @@ const EventDetailsPage = () => {
     isLoading,
   } = useGetOneEventQuery({
     id,
-    userID,
   });
 
   if (isLoading) {

@@ -100,3 +100,9 @@ export interface IDeleteEventModalProps {
   description: string;
   onConfirm: (id: string) => Promise<void>;
 }
+
+export interface IBookmarkProps {
+  id: string;
+  userID: string;
+  eventID: string;
+}
