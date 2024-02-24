@@ -18,7 +18,11 @@ export const initialState: UserState = {
   emailVerified: false,
   photoURL: "",
   phoneNumber: "",
+<<<<<<< HEAD
   userRole: "user",
+=======
+  userRole: "",
+>>>>>>> 399d339d3487155829e856167d8e07db0158484f
 };
 
 export const userDataSlice = createSlice({
@@ -57,6 +61,8 @@ export const userDataSlice = createSlice({
           displayName: user?.displayName as string,
           photoURL: user?.photoURL as string,
           phoneNumber: user.phoneNumber as string,
+          // ommit this line later when the logic is implemented
+          userRole: "admin",
         };
       }
     );
