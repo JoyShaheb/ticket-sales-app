@@ -10,10 +10,8 @@ import { IEventDataToUpdate, iExtendedEventType } from "@/types/interface";
 import { useNavigate } from "react-router-dom";
 import dayjs from "dayjs";
 import { Button } from "./ui/button";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState, removeEvent, saveEvent } from "@/store";
-// import { FaBookmark } from "react-icons/fa";
-// import { FiBookmark } from "react-icons/fi";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store";
 import BookmarkComponent from "./BookmarkComponent";
 
 const EventCard = ({
@@ -36,27 +34,11 @@ const EventCard = ({
   };
 
   const navigate = useNavigate();
-  const dispatch = useDispatch();
 
   const user = useSelector((state: RootState) => state.user);
   const isAuthenticated = !!user.uid;
 
   const userID = user.uid;
-  const bookmarks = useSelector(
-    (state: RootState) => state.bookmarks[userID]?.savedEvents || []
-  );
-
-  // const handleSave = () => {
-  //   if (isAuthenticated) {
-  //     if (bookmarks.includes(id)) {
-  //       dispatch(removeEvent({ userID, eventID: id }));
-  //     } else {
-  //       dispatch(saveEvent({ userID, eventID: id }));
-  //     }
-  //   } else {
-  //     navigate("/login");
-  //   }
-  // };
 
   const handleGetTicketClick = () => {
     navigate(`/events/${id}`);

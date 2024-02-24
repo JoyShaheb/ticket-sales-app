@@ -8,8 +8,6 @@ interface IBookMark {
   };
 }
 
-const initialState: IBookMark = {};
-
 // Load bookmarks from localStorage on initial load
 const loadBookmarksFromStorage = () => {
   const storedBookmarks = localStorage.getItem("bookmarks");
