@@ -1,12 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { setupListeners } from "@reduxjs/toolkit/query";
 import { sysmtemSlice, resetSystem, themeSwitch } from "./Slices/systemSlice";
-import {
-  userDataSlice,
-  loginSuccess,
-  logoutSuccess,
-  changeEmailVeificationStatus,
-} from "./Slices/userSlice.ts";
+import { userDataSlice, logoutSuccess } from "./Slices/userSlice.ts";
 import {
   UserAuthAPI,
   useEmailSignupMutation,
@@ -73,9 +68,7 @@ export {
   useGetProfileDataQuery,
   useUpdateUserProfileMutation,
   // user auth slice
-  loginSuccess,
   logoutSuccess,
-  changeEmailVeificationStatus,
 
   // events
   useGetAllEventsQuery,
