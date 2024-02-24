@@ -2,12 +2,14 @@ import { createApi, fakeBaseQuery } from "@reduxjs/toolkit/query/react";
 import { IBookmarkProps } from "../../types/interface";
 
 import {
-  addDoc,
   collection,
   deleteDoc,
   doc,
   query,
   getDocs,
+  getDoc,
+  setDoc,
+  updateDoc,
 } from "firebase/firestore";
 import { db } from "../../config/firebase-config";
 
@@ -46,10 +48,22 @@ export const bookmarksAPI = createApi({
 
     addOneBookmark: builder.mutation<string, IBookmarkProps>({
       queryFn: async ({ userID, eventID }) => {
-        await addDoc(collection(db, bookmarksCollectionName), {
-          userID,
-          eventID,
-        });
+        const userDocRef = doc(db, bookmarksCollectionName, userID);
+
+        // Check if the user document exists
+        const userDocSnapshot = await getDoc(userDocRef);
+
+        if (!userDocSnapshot.exists()) {
+          // If the user document does not exist, create it with the first eventID
+          await setDoc(userDocRef, { eventIDs: [eventID] });
+        } else {
+          // If the user document exists, update the eventIDs array
+          const userDocData = userDocSnapshot.data();
+          const updatedEventIDs = [...(userDocData?.eventIDs || []), eventID];
+
+          await updateDoc(userDocRef, { eventIDs: updatedEventIDs });
+        }
+
         try {
           return {
             data: "Bookmark Added Successfully",
@@ -63,24 +77,48 @@ export const bookmarksAPI = createApi({
       invalidatesTags: ["Bookmarks"],
     }),
 
-    deleteOneBookmark: builder.mutation<
-      string,
-      {
-        id: string;
-      }
-    >({
+    deleteOneBookmark: builder.mutation<string, { id: string }>({
       queryFn: async ({ id }) => {
-        const docRef = await doc(db, bookmarksCollectionName, id);
-        await deleteDoc(docRef);
-        try {
-          return {
-            data: "Bookmark Deleted Successfully",
-          };
-        } catch (err) {
-          return {
-            error: (err as Error)?.message,
-          };
+        // Get the reference to the bookmark document
+        const docRef = doc(db, bookmarksCollectionName, id);
+
+        // Get the data from the bookmark document before deleting it
+        const bookmarkData = (await getDoc(docRef)).data();
+
+        if (bookmarkData) {
+          const { userID, eventID } = bookmarkData;
+
+          // Delete the bookmark document
+          await deleteDoc(docRef);
+
+          // Now, update the user's document to remove the eventID
+          const userDocRef = doc(db, bookmarksCollectionName, userID);
+          const userDocSnapshot = await getDoc(userDocRef);
+
+          if (userDocSnapshot.exists()) {
+            const userDocData = userDocSnapshot.data();
+            const updatedEventIDs = (userDocData?.eventIDs || []).filter(
+              (id: any) => id !== eventID
+            );
+
+            // Update the user's document with the modified eventIDs array
+            await updateDoc(userDocRef, { eventIDs: updatedEventIDs });
+          }
+
+          try {
+            return {
+              data: "Bookmark Deleted Successfully",
+            };
+          } catch (err) {
+            return {
+              error: (err as Error)?.message,
+            };
+          }
         }
+
+        return {
+          error: "Bookmark not found",
+        };
       },
       invalidatesTags: ["Bookmarks"],
     }),
