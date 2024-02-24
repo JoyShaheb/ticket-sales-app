@@ -18,11 +18,7 @@ export const initialState: UserState = {
   emailVerified: false,
   photoURL: "",
   phoneNumber: "",
-<<<<<<< HEAD
-  userRole: "user",
-=======
   userRole: "",
->>>>>>> 399d339d3487155829e856167d8e07db0158484f
 };
 
 export const userDataSlice = createSlice({
