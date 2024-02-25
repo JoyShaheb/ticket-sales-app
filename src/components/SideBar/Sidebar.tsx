@@ -12,10 +12,11 @@ const Sidebar = ({ children }: { children: React.ReactNode }) => {
   const dispatch = useDispatch();
   const [logout] = useLogoutMutation();
 
-  const appSignout = async () =>
+  const appSignout = async () => {
     await logout()
       .unwrap()
       .then(() => navigate("/login"));
+  };
 
   const theme = useSelector((state: RootState) => state.system.mode);
 

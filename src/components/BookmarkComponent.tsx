@@ -6,6 +6,7 @@ import {
 import { FaBookmark } from "react-icons/fa";
 import { FiBookmark } from "react-icons/fi";
 import { useGetAllBookmarksQuery } from "../store";
+import { Loader2 } from "lucide-react";
 
 const BookmarkComponent = ({
   userID,
@@ -29,7 +30,9 @@ const BookmarkComponent = ({
     await deleteBookmark({ userID, eventID });
 
   if (isLoading || isFetching) {
-    return <div>Loading...</div>;
+    return (
+      <Loader2 className="h-[20px] w-[20px] animate-spin text-[#26AC9B]" />
+    );
   }
 
   return (

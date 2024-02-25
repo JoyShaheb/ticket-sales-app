@@ -17,27 +17,11 @@ import {
 } from "./pages";
 import { AdminDashboard, EventCreation } from "./pages/AdminPages/";
 import Sidebar from "./components/SideBar/Sidebar";
-// import { useEffect } from "react";
-// import { onAuthStateChanged } from "firebase/auth";
-// import { auth } from "./config/firebase-config";
-// import { useDispatch } from "react-redux";
-// import { logoutSuccess } from "./store/Slices/userSlice.ts";
 import UserRoutes from "./pages/Auth/UserRoutes.tsx";
 import AuthStateRoute from "./pages/Auth/AuthStateRoute.tsx";
 import AdminRoutes from "./pages/Auth/AdminRoutes.tsx";
 
 const App = () => {
-  // const dispatch = useDispatch();
-  // useEffect(() => {
-  //   onAuthStateChanged(auth, (user) => {
-  //     if (user) {
-  //       return;
-  //     } else {
-  //       dispatch(logoutSuccess());
-  //     }
-  //   });
-  // }, []);
-
   return (
     <Router>
       <Sidebar>
