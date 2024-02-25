@@ -1,11 +1,10 @@
 import {
-  logoutSuccess,
   useLogoutMutation,
   RootState,
   useGetProfileDataQuery,
   useUpdateUserProfileMutation,
 } from "@/store";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { IProfileData } from "@/types/interface";
 import { Button } from "@/components/ui/button";
@@ -14,23 +13,13 @@ import { toast } from "sonner";
 import EditProfileDialog from "@/components/EditProfileDialog";
 
 const Profile = () => {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [logout] = useLogoutMutation();
 
-  const appSignout = async () => {
-    try {
-      dispatch(logoutSuccess());
-      toast.promise(logout(null).unwrap(), {
-        loading: "Logging out...",
-        success: "Logout successful",
-        error: "Logout failed",
-      });
-      navigate("/login");
-    } catch (error) {
-      console.error("Error during logout:", error);
-    }
-  };
+  const appSignout = async () =>
+    await logout()
+      .unwrap()
+      .then(() => navigate("/login"));
 
   const userId = useSelector((state: RootState) => state.user.uid);
   const {

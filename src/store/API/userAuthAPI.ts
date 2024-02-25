@@ -26,7 +26,7 @@ export const UserAuthAPI = createApi({
   baseQuery: fakeBaseQuery(),
   tagTypes: ["User", "UpdateUser"],
   endpoints: (builder) => ({
-    logout: builder.mutation<void, null>({
+    logout: builder.mutation<void, void>({
       queryFn: async () => {
         try {
           await signOut(auth);

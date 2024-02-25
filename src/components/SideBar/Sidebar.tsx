@@ -10,7 +10,6 @@ import { ThemeTypesEnum } from "@/types/enum";
 import SideBarMenu from "./SideBarMenu";
 import MobileSideBar from "./MobileSideBar";
 import { RootState, themeSwitch, useLogoutMutation } from "@/store";
-import { toast } from "sonner";
 
 const Sidebar = ({ children }: { children: React.ReactNode }) => {
   const navigate = useNavigate();
@@ -18,18 +17,10 @@ const Sidebar = ({ children }: { children: React.ReactNode }) => {
   const dispatch = useDispatch();
   const [logout] = useLogoutMutation();
 
-  const appSignout = async () => {
-    toast.promise(
-      logout(null)
-        .unwrap()
-        .then(() => navigate("/login")),
-      {
-        loading: "Logging out...",
-        success: "Logout successful",
-        error: "Logout failed",
-      }
-    );
-  };
+  const appSignout = async () =>
+    await logout()
+      .unwrap()
+      .then(() => navigate("/login"));
 
   const theme = useSelector((state: RootState) => state.system.mode);
 

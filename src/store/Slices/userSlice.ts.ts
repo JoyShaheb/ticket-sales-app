@@ -1,5 +1,6 @@
 import { createSlice, isAnyOf } from "@reduxjs/toolkit";
 import { UserAuthAPI } from "../API/userAuthAPI";
+import { toast } from "sonner";
 
 export interface UserState {
   uid: string;
@@ -28,24 +29,38 @@ export const userDataSlice = createSlice({
     logoutSuccess: () => initialState,
   },
   extraReducers: (builder) => {
-    builder.addMatcher(
-      UserAuthAPI.endpoints.logout.matchFulfilled,
-      () => initialState
-    );
-    builder.addMatcher(
-      UserAuthAPI.endpoints.confirmEmailVerification.matchFulfilled,
-      (state) => {
-        return {
-          ...state,
-          emailVerified: true,
-        };
-      }
-    );
+    const {
+      logout,
+      confirmEmailVerification,
+      emailLogin,
+      googleSignup,
+      emailSignup,
+    } = UserAuthAPI.endpoints;
+
+    builder
+      .addMatcher(logout.matchPending, (state) => {
+        toast.loading("Logging out...");
+        return state;
+      })
+      .addMatcher(logout.matchFulfilled, () => {
+        toast.success("Logged out successfully");
+        return initialState;
+      })
+      .addMatcher(logout.matchRejected, (state) => {
+        toast.error("Unable to logout, please try again");
+        return state;
+      });
+    builder.addMatcher(confirmEmailVerification.matchFulfilled, (state) => {
+      return {
+        ...state,
+        emailVerified: true,
+      };
+    });
     builder.addMatcher(
       isAnyOf(
-        UserAuthAPI.endpoints.emailLogin.matchFulfilled,
-        UserAuthAPI.endpoints.googleSignup.matchFulfilled,
-        UserAuthAPI.endpoints.emailSignup.matchFulfilled
+        emailLogin.matchFulfilled,
+        googleSignup.matchFulfilled,
+        emailSignup.matchFulfilled
       ),
       (state, action) => {
         const user = action?.payload?.user;
