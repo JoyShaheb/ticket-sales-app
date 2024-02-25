@@ -1,10 +1,10 @@
-import { useEffect } from "react";
+// import { useEffect } from "react";
 // import { useGetAllBookmarksQuery } from "../../src/store/index";
-import { useSelector } from "react-redux";
-import { RootState } from "../../src/store";
+// import { useSelector } from "react-redux";
+// import { RootState } from "../../src/store";
 
 const Bookmarks = () => {
-  const userID = useSelector((state: RootState) => state.user.uid);
+  // const userID = useSelector((state: RootState) => state.user.uid);
   // const { data, error, isLoading } = useGetAllBookmarksQuery();
 
   // useEffect(() => {

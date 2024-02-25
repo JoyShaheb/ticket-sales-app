@@ -24,7 +24,6 @@ const Events = () => {
   };
 
   const userRole = useSelector((state: RootState) => state.user.userRole);
-  console.log("role", userRole);
 
   const [newEvent, setNewEvent] = useState<NewEventType>(initialState);
 

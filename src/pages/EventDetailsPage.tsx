@@ -5,18 +5,22 @@ import EventDetailsCard from "@/components/EventDetailsCard";
 const EventDetailsPage = () => {
   const { id } = useParams<{ id: string }>();
 
-  if (!id) {
-    return <div className="">Event ID not provided</div>;
-  }
-
-  // Call the hook unconditionally at the top level
   const {
     data: event,
     isError,
     isLoading,
-  } = useGetOneEventQuery({
-    id,
-  });
+  } = useGetOneEventQuery(
+    {
+      id: id || "",
+    },
+    {
+      skip: !id,
+    }
+  );
+
+  if (!id) {
+    return <div className="">Event ID not provided</div>;
+  }
 
   if (isLoading) {
     return <div className="">Loading event details...</div>;
