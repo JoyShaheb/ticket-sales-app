@@ -22,28 +22,14 @@ export interface IUpdateUser {
   phoneNumber: string;
 }
 
-export interface ISecondsDate {
-  seconds: number;
-  nanoseconds: number;
-}
-
 export interface IEventsProps {
   id: string;
   title: string;
   description: string;
-  date: Date | Number | ISecondsDate;
-  userOwner?: string;
+  date: Date;
   location: string;
   image: string;
 }
-
-export type IEventsForm = Pick<
-  IEventsProps,
-  "title" | "date" | "description" | "image" | "location"
-> & {
-  handleInput: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  onDateChange: (date: Date | Number | ISecondsDate) => void;
-};
 
 export interface IEditProfileDialogProps {
   handleInputChange: (event: ChangeEvent<HTMLInputElement>) => void; // Change type to ChangeEvent
@@ -59,7 +45,7 @@ export interface IEditProfileDialogProps {
 export interface IEditEventDialogProps {
   icon: React.ReactNode;
   eventData: IEventsProps;
-  onEdit: (updatedData: IEventsProps) => Promise<void>;
+  onEdit: (updatedData: IEventDataToUpdate) => Promise<void>;
 }
 
 export interface iExtendedEventType extends NewEventType {
@@ -68,17 +54,34 @@ export interface iExtendedEventType extends NewEventType {
   onEdit: (eventData: IEventsProps) => Promise<void>;
 }
 
+export interface IEventDataToUpdate {
+  title: string;
+  description: string;
+  date: Date;
+  location: string;
+  image: string;
+  id: string;
+}
+
 export interface IExtendedEventType {
   deleteEvent: (id: string) => Promise<void>;
   eventData: IEventsProps;
-  onEdit: (eventData: IEventsProps) => Promise<void>;
-  handleInput: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  onDateChange: (date: Date | Number | ISecondsDate) => void;
+  onEdit: (eventData: IEventDataToUpdate) => Promise<void>;
 }
 
 export interface IDatePicker {
-  value: Date | Number | ISecondsDate;
-  setvalue: (value: Date | Number | ISecondsDate) => void;
+  value: Date;
+  setvalue: (value: Date) => void;
+}
+
+export interface IEventsForm {
+  title: string;
+  date: Date;
+  description: string;
+  location: string;
+  image?: string;
+  handleInput: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onDateChange: (date: Date) => void;
 }
 
 export interface iInputFieldProps {
@@ -96,4 +99,10 @@ export interface IDeleteEventModalProps {
   icon: React.ReactNode;
   description: string;
   onConfirm: (id: string) => Promise<void>;
+}
+
+export interface IBookmarkProps {
+  id: string;
+  userID: string;
+  eventID: string;
 }

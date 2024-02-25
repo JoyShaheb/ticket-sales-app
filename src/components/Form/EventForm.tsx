@@ -40,7 +40,7 @@ const EventForm = ({
         >
           date
         </Label>
-        <DatePicker setvalue={onDateChange} value={date as Date} />
+        <DatePicker setvalue={onDateChange} value={date} />
       </div>
       <InputFieldWithLabel
         label="location"

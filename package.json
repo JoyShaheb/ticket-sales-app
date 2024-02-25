@@ -10,7 +10,7 @@
     "preview": "vite preview",
     "format": "prettier --write .",
     "prepare": "husky install",
-    "lint-and-format": "npm run lint && npm run format"
+    "lint-and-format": "npm run format && npm run lint"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
@@ -28,6 +28,7 @@
     "@radix-ui/react-select": "^2.0.0",
     "@radix-ui/react-slot": "^1.0.2",
     "@radix-ui/react-switch": "^1.0.3",
+    "@radix-ui/react-toggle": "^1.0.3",
     "@reduxjs/toolkit": "^2.0.1",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",

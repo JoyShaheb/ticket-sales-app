@@ -15,7 +15,7 @@ export type GoogleAuthType = () => Promise<string | number>;
 
 export type NewEventType = Pick<
   IEventsProps,
-  "date" | "description" | "title" | "userOwner" | "location" | "image"
+  "date" | "description" | "title" | "location" | "image"
 >;
 
 export type UpdateEventType = Pick<

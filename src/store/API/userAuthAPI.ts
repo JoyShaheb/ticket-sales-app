@@ -99,7 +99,10 @@ export const UserAuthAPI = createApi({
     sendEmailVerification: builder.mutation<string, null>({
       queryFn: async () => {
         try {
-          await sendEmailVerification(auth.currentUser as User);
+          await sendEmailVerification(auth.currentUser as User, {
+            // redirect to this page only after request is successful
+            url: "http://localhost:5173/",
+          });
           return {
             data: "Email verification sent to your email",
           };
@@ -149,7 +152,10 @@ export const UserAuthAPI = createApi({
     >({
       queryFn: async ({ email }) => {
         try {
-          await sendPasswordResetEmail(auth, email);
+          await sendPasswordResetEmail(auth, email, {
+            // redirect to this page only after request is successful
+            url: "http://localhost:5173/",
+          });
           return {
             data: "Password reset link sent to your email",
           };

@@ -38,7 +38,6 @@ const Signup = () => {
       loading: "Creating user...",
       success: () => {
         // Successfully created user, now navigate to /login
-        setData(initialState);
         navigate("/login");
         return "Successfully created user!";
       },

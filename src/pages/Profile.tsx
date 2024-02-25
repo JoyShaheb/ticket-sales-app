@@ -11,24 +11,15 @@ import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import EditProfileDialog from "@/components/EditProfileDialog";
-import ProfileSkeleton from "@/components/Skeleton/ProfileSkeleton";
 
 const Profile = () => {
   const navigate = useNavigate();
   const [logout] = useLogoutMutation();
 
-  const appSignout = async () => {
-    try {
-      toast.promise(logout().unwrap(), {
-        loading: "Logging out...",
-        success: "Logout successful",
-        error: "Logout failed",
-      });
-      navigate("/login");
-    } catch (error) {
-      console.error("Error during logout:", error);
-    }
-  };
+  const appSignout = async () =>
+    await logout()
+      .unwrap()
+      .then(() => navigate("/login"));
 
   const userId = useSelector((state: RootState) => state.user.uid);
   const {
@@ -66,11 +57,11 @@ const Profile = () => {
   };
 
   if (isFetching || isLoading) {
-    return <ProfileSkeleton />;
+    return <div className="">Loading, please wait....</div>;
   }
 
   if (isError) {
-    return <h1 className="text-3xl">Error occurred, please try again</h1>;
+    return <div className="">Error occurred, please try again</div>;
   }
 
   const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -93,13 +84,11 @@ const Profile = () => {
           width: "120px",
           height: "120px",
         }}
-        src={
-          data?.photoURL ? data?.photoURL : "public/blank-profile-picture.png"
-        }
+        src={data?.photoURL ? data?.photoURL : "blank-profile-picture.png"}
         alt=""
       />
       <br />
-      <Button variant="outline" onClick={appSignout}>
+      <Button variant={"outline"} onClick={appSignout}>
         Logout
       </Button>
       <br />

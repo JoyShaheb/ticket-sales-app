@@ -1,6 +1,5 @@
-import { addDays, format } from "date-fns";
+import dayjs from "dayjs";
 import { Calendar as CalendarIcon } from "lucide-react";
-
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
@@ -9,23 +8,10 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { SelectSingleEventHandler } from "react-day-picker";
+import { IDatePicker } from "@/types/interface";
 
-const DatePicker = ({
-  value,
-  setvalue,
-}: {
-  value: Date;
-  /* eslint-disable-next-line no-unused-vars */
-  setvalue: (value: Date) => void;
-}) => {
+const DatePicker = ({ value, setvalue }: IDatePicker) => {
   const handleDateSelect: SelectSingleEventHandler = (day) => {
     if (day instanceof Date) {
       setvalue(day);
@@ -43,25 +29,14 @@ const DatePicker = ({
           )}
         >
           <CalendarIcon className="mr-2 h-4 w-4" />
-          {value ? format(value, "PPP") : <span>Pick a date</span>}
+          {value ? (
+            dayjs(value).format("MMMM D, YYYY")
+          ) : (
+            <span>Pick a date</span>
+          )}
         </Button>
       </PopoverTrigger>
       <PopoverContent className="flex w-auto flex-col space-y-2 p-2">
-        <Select
-          onValueChange={(value) =>
-            setvalue(addDays(new Date(), parseInt(value)))
-          }
-        >
-          <SelectTrigger>
-            <SelectValue placeholder="Select" />
-          </SelectTrigger>
-          <SelectContent position="popper">
-            <SelectItem value="0">Today</SelectItem>
-            <SelectItem value="1">Tomorrow</SelectItem>
-            <SelectItem value="3">In 3 days</SelectItem>
-            <SelectItem value="7">In a week</SelectItem>
-          </SelectContent>
-        </Select>
         <div className="rounded-md border">
           <Calendar
             mode="single"

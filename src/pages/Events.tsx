@@ -1,7 +1,6 @@
 import EventCard from "@/components/EventCard";
 import EventForm from "@/components/Form/EventForm";
 import EventModal from "@/components/Modal/EventModal";
-import { Button } from "@/components/ui/button";
 import {
   useGetAllEventsQuery,
   useCreateOneEventMutation,
@@ -9,22 +8,23 @@ import {
   useEditOneEventMutation,
   RootState,
 } from "@/store";
-import { IEventsProps, ISecondsDate } from "@/types/interface";
+import { IEventsProps } from "@/types/interface";
 import { NewEventType } from "@/types/types";
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { toast } from "sonner";
 
 const Events = () => {
-  const userID = useSelector((state: RootState) => state.user.uid);
   const initialState: NewEventType = {
     date: new Date(),
     description: "",
     title: "",
     location: "",
     image: "",
-    userOwner: userID,
   };
+
+  const userRole = useSelector((state: RootState) => state.user.userRole);
+
   const [newEvent, setNewEvent] = useState<NewEventType>(initialState);
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) =>
@@ -33,12 +33,9 @@ const Events = () => {
       [e.target.name]: e.target.value,
     });
 
-  const onDateChange = (date: Date | Number | ISecondsDate) =>
-    setNewEvent({ ...newEvent, date });
+  const onDateChange = (date: Date) => setNewEvent({ ...newEvent, date });
 
-  const { data, isError, isFetching, isLoading } = useGetAllEventsQuery({
-    userID,
-  });
+  const { data, isError, isFetching, isLoading } = useGetAllEventsQuery();
 
   const [editOneEvent] = useEditOneEventMutation();
   const [deleteOneEvent] = useDeleteOneEventMutation();
@@ -85,38 +82,36 @@ const Events = () => {
     return <div className="">Error, please try again</div>;
   }
   return (
-    <div className="flex flex-col gap-5">
+    <>
       {/* Modal */}
-      <div className="flex justify-center">
-        <EventModal
-          onConfirm={onSubmit}
-          button={
-            <Button variant="default" size="sm">
-              Create New Event
-            </Button>
-          }
-          dialogueDescription="Create your Event here. Click Create when you're done."
-          dialogueTitle="Create New Event"
-          confirmButtonText="Create"
-        >
-          <EventForm
-            {...newEvent}
-            handleInput={handleInput}
-            onDateChange={onDateChange}
-          />
-        </EventModal>
+      <div className="flex justify-center mb-6">
+        {userRole === "admin" && (
+          <EventModal
+            onConfirm={onSubmit}
+            buttonText="Add Event"
+            dialogueDescription="Create your Event here. Click Create when you're done."
+            dialogueTitle="Create New Event"
+            confirmButtonText="Create"
+          >
+            <EventForm
+              {...newEvent}
+              handleInput={handleInput}
+              onDateChange={onDateChange}
+            />
+          </EventModal>
+        )}
       </div>
-
-      {data?.map((event: IEventsProps) => (
-        <EventCard
-          key={event.id}
-          userOwner={event.userOwner}
-          {...event}
-          deleteEvent={() => deleteEvent(event.id)}
-          onEdit={onEdit}
-        />
-      ))}
-    </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-3 justify-center">
+        {data?.map((event: IEventsProps) => (
+          <EventCard
+            key={event.id}
+            {...event}
+            deleteEvent={() => deleteEvent(event.id)}
+            onEdit={onEdit}
+          />
+        ))}
+      </div>
+    </>
   );
 };
 

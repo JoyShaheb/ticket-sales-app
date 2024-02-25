@@ -1,12 +1,10 @@
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-
 import { useEffect } from "react";
 import { ThemeTypesEnum } from "@/types/enum";
 import SideBarMenu from "./SideBarMenu";
 import MobileSideBar from "./MobileSideBar";
 import { RootState, themeSwitch, useLogoutMutation } from "@/store";
-import { toast } from "sonner";
 
 const Sidebar = ({ children }: { children: React.ReactNode }) => {
   const navigate = useNavigate();
@@ -15,16 +13,9 @@ const Sidebar = ({ children }: { children: React.ReactNode }) => {
   const [logout] = useLogoutMutation();
 
   const appSignout = async () => {
-    toast.promise(
-      logout()
-        .unwrap()
-        .then(() => navigate("/login")),
-      {
-        loading: "Logging out...",
-        success: "Logout successful",
-        error: "Logout failed",
-      }
-    );
+    await logout()
+      .unwrap()
+      .then(() => navigate("/login"));
   };
 
   const theme = useSelector((state: RootState) => state.system.mode);
