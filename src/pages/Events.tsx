@@ -12,7 +12,6 @@ import { IEventsProps } from "@/types/interface";
 import { NewEventType } from "@/types/types";
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
-import { toast } from "sonner";
 
 const Events = () => {
   const initialState: NewEventType = {
@@ -41,39 +40,16 @@ const Events = () => {
   const [deleteOneEvent] = useDeleteOneEventMutation();
   const [createOneEvent] = useCreateOneEventMutation();
 
-  const deleteEvent = async (id: string): Promise<void> => {
-    toast.promise(deleteOneEvent({ id }).unwrap(), {
-      loading: "Deleting Event...",
-      success: "Event deleted successfully",
-      error: "Error deleting Event",
-    });
-  };
+  const deleteEvent = async (id: string) =>
+    await deleteOneEvent({ id }).unwrap();
 
-  const onSubmit: () => Promise<void> = async () => {
-    try {
-      toast.promise(
-        createOneEvent(newEvent)
-          .unwrap()
-          .then(() => setNewEvent(initialState)),
-        {
-          loading: "Creating Event...",
-          success: "Event created successfully",
-          error: "Error creating Event",
-        }
-      );
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  const onSubmit: () => Promise<void> = async () =>
+    await createOneEvent(newEvent)
+      .unwrap()
+      .then(() => setNewEvent(initialState));
 
-  const onEdit = async (data: IEventsProps) => {
-    // .then(() => setNewEvent(initialState))
-    toast.promise(editOneEvent(data).unwrap(), {
-      loading: "Updating Event...",
-      success: "Event updated successfully",
-      error: "Error updating Event",
-    });
-  };
+  const onEdit = async (data: IEventsProps) =>
+    await editOneEvent(data).unwrap();
 
   if (isLoading || isFetching) {
     return <div className="">Loading please wait....</div>;

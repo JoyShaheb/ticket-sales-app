@@ -50,8 +50,8 @@ export interface IEditEventDialogProps {
 
 export interface iExtendedEventType extends NewEventType {
   id: string;
-  deleteEvent: (id: string) => Promise<void>;
-  onEdit: (eventData: IEventsProps) => Promise<void>;
+  deleteEvent: (id: string) => Promise<string>;
+  onEdit: (eventData: IEventsProps) => Promise<string>;
 }
 
 export interface IEventDataToUpdate {

@@ -1,6 +1,7 @@
 import { createSlice, isAnyOf } from "@reduxjs/toolkit";
 import { UserAuthAPI } from "../API/userAuthAPI";
 import { toast } from "sonner";
+import { eventsAPI } from "../API/eventsAPI";
 
 export interface UserState {
   uid: string;
@@ -36,6 +37,42 @@ export const userDataSlice = createSlice({
       googleSignup,
       emailSignup,
     } = UserAuthAPI.endpoints;
+
+    const { createOneEvent, editOneEvent, deleteOneEvent } =
+      eventsAPI.endpoints;
+
+    builder
+      .addMatcher(createOneEvent.matchPending, () => {
+        toast.loading("Creating event...");
+      })
+      .addMatcher(createOneEvent.matchFulfilled, () => {
+        toast.success("Event created successfully");
+      })
+      .addMatcher(createOneEvent.matchRejected, () => {
+        toast.error("Unable to create event, please try again");
+      });
+
+    builder
+      .addMatcher(editOneEvent.matchPending, () => {
+        toast.loading("Editing event...");
+      })
+      .addMatcher(editOneEvent.matchFulfilled, () => {
+        toast.success("Event edited successfully");
+      })
+      .addMatcher(editOneEvent.matchRejected, () => {
+        toast.error("Unable to edit event, please try again");
+      });
+
+    builder
+      .addMatcher(deleteOneEvent.matchPending, () => {
+        toast.loading("Deleting event...");
+      })
+      .addMatcher(deleteOneEvent.matchFulfilled, () => {
+        toast.success("Event deleted successfully");
+      })
+      .addMatcher(deleteOneEvent.matchRejected, () => {
+        toast.error("Unable to delete event, please try again");
+      });
 
     builder
       .addMatcher(logout.matchPending, (state) => {
