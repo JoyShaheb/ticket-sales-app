@@ -36,11 +36,6 @@ const SideBarMenu = ({
             />
           </>
         )}
-        <SidebarLink
-          icon={<ShoppingBag className="w-4 h-4" />}
-          label="Events"
-          path="/"
-        />
         {!userUID && (
           <>
             <SidebarLink
@@ -55,16 +50,20 @@ const SideBarMenu = ({
             />
           </>
         )}
+        <SidebarLink
+          icon={<ShoppingBag className="w-4 h-4" />}
+          label="Events"
+          path="/"
+        />
         {userUID && (
           <div onClick={appSignout}>
             <SidebarLink
               icon={<LogOut className="w-4 h-4" />}
               label="Sign Out"
-              path="/"
+              path="/logout"
             />
           </div>
         )}
-
         <DarkModeSwitch theme={theme} onClick={handleChangeTheme} />
       </nav>
     </>

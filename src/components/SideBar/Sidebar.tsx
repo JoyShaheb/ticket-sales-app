@@ -1,10 +1,5 @@
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-
-// import {
-//   logoutSuccess,
-//   themeSwitch,
-// } from "../../store";
 import { useEffect } from "react";
 import { ThemeTypesEnum } from "@/types/enum";
 import SideBarMenu from "./SideBarMenu";

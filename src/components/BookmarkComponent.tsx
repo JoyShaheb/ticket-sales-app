@@ -10,7 +10,6 @@ import { useGetAllBookmarksQuery } from "../store";
 const BookmarkComponent = ({
   userID,
   eventID,
-  id,
   isAuthenticated,
 }: IBookmarkProps & { isAuthenticated: boolean }) => {
   const [addBookmark] = useAddOneBookmarkMutation();
