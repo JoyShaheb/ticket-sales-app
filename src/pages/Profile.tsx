@@ -9,8 +9,8 @@ import { useEffect, useState } from "react";
 import { IProfileData } from "@/types/interface";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
-import { toast } from "sonner";
 import EditProfileDialog from "@/components/EditProfileDialog";
+import UserProfilePicture from "@/components/Gallery/UserProfilePicture";
 
 const Profile = () => {
   const navigate = useNavigate();
@@ -56,6 +56,12 @@ const Profile = () => {
     });
   };
 
+  const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+
+    await updateProfile(data as IProfileData).unwrap();
+  };
+
   if (isFetching || isLoading) {
     return <div className="">Loading, please wait....</div>;
   }
@@ -64,29 +70,11 @@ const Profile = () => {
     return <div className="">Error occurred, please try again</div>;
   }
 
-  const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-
-    toast.promise(updateProfile(data as IProfileData).unwrap(), {
-      loading: "Updating Profile...",
-      success: "Profile Updated Successfully",
-      error: "Error Updating Profile",
-    });
-  };
-
   return (
     <div>
+      <UserProfilePicture user={user} />
       <h3>Welcome {data?.fullName}</h3>
       <p>Email: {data?.email}</p>
-      <img
-        className="mb-3"
-        style={{
-          width: "120px",
-          height: "120px",
-        }}
-        src={data?.photoURL ? data?.photoURL : "blank-profile-picture.png"}
-        alt=""
-      />
       <br />
       <Button variant={"outline"} onClick={appSignout}>
         Logout
