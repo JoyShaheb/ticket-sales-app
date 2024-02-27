@@ -45,7 +45,7 @@ export interface IEditProfileDialogProps {
 export interface IEditEventDialogProps {
   icon: React.ReactNode;
   eventData: IEventsProps;
-  onEdit: (updatedData: IEventDataToUpdate) => Promise<void>;
+  onEdit: (updatedData: IEventDataToUpdate) => Promise<string>;
 }
 
 export interface iExtendedEventType extends NewEventType {
@@ -64,9 +64,9 @@ export interface IEventDataToUpdate {
 }
 
 export interface IExtendedEventType {
-  deleteEvent: (id: string) => Promise<void>;
+  deleteEvent: (id: string) => Promise<string>;
   eventData: IEventsProps;
-  onEdit: (eventData: IEventDataToUpdate) => Promise<void>;
+  onEdit: (eventData: IEventDataToUpdate) => Promise<string>;
 }
 
 export interface IDatePicker {
@@ -98,7 +98,7 @@ export interface IDeleteEventModalProps {
   title: string;
   icon: React.ReactNode;
   description: string;
-  onConfirm: (id: string) => Promise<void>;
+  onConfirm: (id: string) => Promise<string>;
 }
 
 export interface IBookmarkProps {
