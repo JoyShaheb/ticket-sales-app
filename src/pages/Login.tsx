@@ -20,8 +20,8 @@ import { GoogleAuthType } from "../types/types";
 
 const Login = () => {
   const initialState: IUserSignInData = {
-    email: "mitkapanarin@gmail.com",
-    password: "111111",
+    email: "",
+    password: "",
   };
 
   const navigate = useNavigate();
@@ -60,7 +60,7 @@ const Login = () => {
   };
 
   const GoogleAuth: GoogleAuthType = async () =>
-    toast.promise(googleSignup(null).unwrap(), {
+    toast.promise(googleSignup().unwrap(), {
       loading: "Logging in...",
       success: "Successfully Logged in!",
       error: "Unable to login!",

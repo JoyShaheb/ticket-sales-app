@@ -128,7 +128,7 @@ export const UserAuthAPI = createApi({
       },
       invalidatesTags: ["User"],
     }),
-    googleSignup: builder.mutation<UserCredential, null>({
+    googleSignup: builder.mutation<UserCredential, void>({
       queryFn: async () => {
         try {
           const response = await signInWithPopup(auth, googleProvider);
