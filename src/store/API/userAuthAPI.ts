@@ -25,7 +25,6 @@ import {
   ref,
   uploadBytes,
 } from "firebase/storage";
-import { UploadFile } from "antd";
 import { FirebaseError } from "firebase/app";
 
 export interface IUserSignInData {
