@@ -1,5 +1,10 @@
 import { createApi, fakeBaseQuery } from "@reduxjs/toolkit/query/react";
-import { auth, db, googleProvider } from "../../config/firebase-config";
+import {
+  auth,
+  db,
+  firebaseStorage,
+  googleProvider,
+} from "../../config/firebase-config";
 import {
   createUserWithEmailAndPassword,
   UserCredential,
@@ -11,8 +16,16 @@ import {
   sendEmailVerification,
   User,
   applyActionCode,
+  updateProfile,
 } from "firebase/auth";
 import { doc, getDoc, setDoc } from "firebase/firestore";
+import {
+  deleteObject,
+  getDownloadURL,
+  ref,
+  uploadBytes,
+} from "firebase/storage";
+import { FirebaseError } from "firebase/app";
 
 export interface IUserSignInData {
   email: string;
@@ -239,6 +252,66 @@ export const UserAuthAPI = createApi({
       },
       invalidatesTags: ["User"],
     }),
+
+    // Upload profile picture image
+    uploadProfilePicture: builder.mutation({
+      queryFn: async (file: any) => {
+        try {
+          const user = auth.currentUser;
+          const storageRef = await ref(
+            firebaseStorage,
+            `users/${user?.uid}/profilePicture/${user?.uid}`
+          );
+          await uploadBytes(storageRef, file);
+          const url = await getDownloadURL(storageRef);
+          await updateProfile(user as User, {
+            photoURL: url,
+          });
+          return {
+            data: url,
+          };
+        } catch (err) {
+          return {
+            error: (err as Error)?.message,
+          };
+        }
+      },
+      invalidatesTags: ["User"],
+    }),
+
+    removeProfilePicture: builder.mutation<void, void>({
+      queryFn: async () => {
+        try {
+          const user = auth.currentUser;
+
+          // reference inside the storage
+          const storageRef = ref(
+            firebaseStorage,
+            `users/${user?.uid}/profilePicture/${user?.uid}`
+          );
+          await getDownloadURL(storageRef)
+            .then(async () => {
+              await updateProfile(user as User, {
+                photoURL: "",
+              });
+            })
+            .then(async () => await deleteObject(storageRef))
+            .catch(async () => {
+              await updateProfile(user as User, {
+                photoURL: "",
+              });
+            });
+          return {
+            data: undefined,
+          };
+        } catch (err) {
+          return {
+            error: err as FirebaseError,
+          };
+        }
+      },
+      invalidatesTags: ["User"],
+    }),
   }),
 });
 
@@ -253,4 +326,6 @@ export const {
   useConfirmEmailVerificationMutation,
   useGetProfileDataQuery,
   useUpdateUserProfileMutation,
+  useUploadProfilePictureMutation,
+  useRemoveProfilePictureMutation,
 } = UserAuthAPI;

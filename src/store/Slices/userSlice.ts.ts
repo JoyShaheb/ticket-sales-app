@@ -36,10 +36,58 @@ export const userDataSlice = createSlice({
       emailLogin,
       googleSignup,
       emailSignup,
+      uploadProfilePicture,
+      removeProfilePicture,
+      updateUserProfile,
     } = UserAuthAPI.endpoints;
 
     const { createOneEvent, editOneEvent, deleteOneEvent } =
       eventsAPI.endpoints;
+
+    builder
+      .addMatcher(removeProfilePicture.matchPending, () => {
+        toast.loading("Removing profile picture...");
+      })
+      .addMatcher(removeProfilePicture.matchFulfilled, (state) => {
+        toast.success("Profile picture removed successfully");
+        return {
+          ...state,
+          photoURL: "",
+        };
+      })
+      .addMatcher(removeProfilePicture.matchRejected, () => {
+        toast.error("Unable to remove profile picture, please try again");
+      });
+
+    builder
+      .addMatcher(uploadProfilePicture.matchPending, () => {
+        toast.loading("Uploading profile picture...");
+      })
+      .addMatcher(uploadProfilePicture.matchFulfilled, (state, action) => {
+        toast.success("Profile picture uploaded successfully");
+        return {
+          ...state,
+          photoURL: action.payload as string,
+        };
+      })
+      .addMatcher(uploadProfilePicture.matchRejected, () => {
+        toast.error("Unable to upload profile picture, please try again");
+      });
+
+    builder
+      .addMatcher(updateUserProfile.matchPending, () => {
+        toast.loading("Updating profile...");
+      })
+      .addMatcher(updateUserProfile.matchFulfilled, (state, action) => {
+        toast.success("Profile updated successfully", action.payload as any);
+        // update the state later when working with the edit profile modal
+        return {
+          ...state,
+        };
+      })
+      .addMatcher(updateUserProfile.matchRejected, () => {
+        toast.error("Unable to update profile, please try again");
+      });
 
     builder
       .addMatcher(createOneEvent.matchPending, () => {
