@@ -46,7 +46,7 @@ const Signup = () => {
   };
 
   const GoogleAuth = async () => {
-    toast.promise(googleSignup(null).unwrap(), {
+    toast.promise(googleSignup().unwrap(), {
       loading: "Creating user...",
       success: "Successfully created user!",
       error: (err) => err,

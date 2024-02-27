@@ -21,23 +21,23 @@ const Profile = () => {
       .unwrap()
       .then(() => navigate("/login"));
 
-  const userId = useSelector((state: RootState) => state.user.uid);
+  const user = useSelector((state: RootState) => state.user);
   const {
     data: profileData,
     isError,
     isFetching,
     isLoading,
   } = useGetProfileDataQuery({
-    userId,
+    userId: user.uid,
   });
 
   const [data, setData] = useState<IProfileData>({
-    uid: userId,
-    displayName: "",
+    uid: user?.uid,
+    displayName: user?.displayName,
     fullName: "",
-    email: "",
-    photoURL: "",
-    phoneNumber: "",
+    email: user?.email,
+    photoURL: user?.photoURL,
+    phoneNumber: user?.phoneNumber,
     address: "",
   });
 
