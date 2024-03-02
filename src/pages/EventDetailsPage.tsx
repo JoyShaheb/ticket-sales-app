@@ -1,6 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useGetOneEventQuery } from "@/store";
 import EventDetailsCard from "@/components/EventDetailsCard";
+import EventSkeleton from "@/components/Skeleton/EventSkeleton";
 
 const EventDetailsPage = () => {
   const { id } = useParams<{ id: string }>();
@@ -23,7 +24,7 @@ const EventDetailsPage = () => {
   }
 
   if (isLoading) {
-    return <div className="">Loading event details...</div>;
+    return <EventSkeleton />;
   }
 
   if (isError) {

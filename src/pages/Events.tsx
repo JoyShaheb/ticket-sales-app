@@ -1,6 +1,7 @@
 import EventCard from "@/components/EventCard";
 import EventForm from "@/components/Form/EventForm";
 import EventModal from "@/components/Modal/EventModal";
+import EventSkeleton from "@/components/Skeleton/EventSkeleton";
 import {
   useGetAllEventsQuery,
   useCreateOneEventMutation,
@@ -51,8 +52,8 @@ const Events = () => {
   const onEdit = async (data: IEventsProps) =>
     await editOneEvent(data).unwrap();
 
-  if (isLoading || isFetching) {
-    return <div className="">Loading please wait....</div>;
+  if (isFetching || isLoading) {
+    return <EventSkeleton />;
   }
   if (isError) {
     return <div className="">Error, please try again</div>;
